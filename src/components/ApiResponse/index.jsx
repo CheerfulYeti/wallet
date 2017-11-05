@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Loader from 'components/Loader';
 
-import './styles.scss';
+import { Response, DataText, Error } from './styled';
 
 export default class ApiResponse extends Component {
 
@@ -14,29 +14,25 @@ export default class ApiResponse extends Component {
     const {asyncState} = this.props;
 
     return (
-      <div className="component-api-response">
-
+      <div>
         {
           (asyncState.needShowLoader) && <Loader />
         }
 
-        <div className="response">
-
+        <Response>
           {
             (asyncState.needShowData) &&
             ((this.props.children)
               ? this.props.children
-              : <div className="data-text">{ JSON.stringify(asyncState.data) }</div>)
+              : <DataText>{ JSON.stringify(asyncState.data) }</DataText>)
 
           }
 
           {
-            (asyncState.needShowError) && <div className="error">{asyncState.error.responseData}</div>
+            (asyncState.needShowError) && <Error>{asyncState.error.responseData}</Error>
 
           }
-
-        </div>
-
+        </Response>
       </div>
     )
   }

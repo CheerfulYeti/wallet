@@ -1,9 +1,9 @@
 import {combineReducers} from 'redux';
 
-import AppReducer from './AppReducer';
-import CurrencyReducer from './CurrencyReducer';
+import App from './App';
+import Currency from './Currency';
 
 export default combineReducers({
-  appState: AppReducer,
-  currencyState: CurrencyReducer
+  appState: App,
+  currencyState: Currency,
 });

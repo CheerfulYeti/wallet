@@ -1,13 +1,11 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-import styles from './styles.scss';
+import { Loader, ImageContainer } from './styled';
 
-export default class Loader extends Component {
-  render() {
-    return (
-      <div className="component-loader">
-        <div className="image-container"></div>
-      </div>
-    )
-  }
+export default () => {
+  return (
+    <Loader>
+      <ImageContainer />
+    </Loader>
+  )
 };

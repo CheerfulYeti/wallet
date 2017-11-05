@@ -60,7 +60,8 @@ module.exports = {
   devtool: "source-map",
   devServer: {
     contentBase: pathList.src,
-    hot: true
+    hot: true,
+    port: 3000,
   },
   module: {
     rules: [

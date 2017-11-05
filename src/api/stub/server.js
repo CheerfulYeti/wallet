@@ -5,7 +5,7 @@
 
 const connect = require('connect');
 const serveStatic = require('serve-static');
-const port = 3000;
+const port = 9000;
 
 connect()
   .use(serveStatic(__dirname, {

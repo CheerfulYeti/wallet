@@ -7,6 +7,9 @@
     "react-hot-loader/babel",
     "react-require",
     "transform-class-properties",
+    ["babel-plugin-styled-components", {
+      "displayName": true
+    }],
     [
       "transform-object-rest-spread",
       {

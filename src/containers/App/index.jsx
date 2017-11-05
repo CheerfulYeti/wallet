@@ -1,11 +1,11 @@
 import React, {Component}  from 'react';
 import {connect} from 'react-redux';
-import {setTest} from 'redux/actions/AppActions';
-import {getLatestRates} from 'redux/actions/CurrencyActions';
+import {setTest} from 'redux/actions/App';
+import {getLatestRates} from 'redux/actions/Currency';
 import ApiResponse from 'components/ApiResponse';
 
 // Styles
-import './styles.scss';
+import { AppContainer, Button } from './styled';
 
 const mapStateToProps = function (store) {
   return {
@@ -17,17 +17,16 @@ const mapStateToProps = function (store) {
 class App extends Component {
 
   render() {
-
     return (
-      <div className="container-app">
+      <AppContainer>
         <h2>React-Redux-Starter-Kit</h2>
 
-        <button onClick={() => this.handleClick(!this.props.testState)}>
+        <Button onClick={() => this.handleClick(!this.props.testState)}>
           Request API: {this.props.latestRatesState.status}
-        </button>
+        </Button>
 
         <ApiResponse asyncState={this.props.latestRatesState}/>
-      </div>
+      </AppContainer>
     )
   };
 
