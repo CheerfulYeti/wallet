@@ -1,7 +1,7 @@
 import React, {Component}  from 'react';
 import {connect} from 'react-redux';
-import {setTest} from 'redux/actions/App';
-import {getLatestRates} from 'redux/actions/Currency';
+import {setTest} from 'reduxConfig/actions/App';
+import {getLatestRates} from 'reduxConfig/actions/Currency';
 import ApiResponse from 'components/ApiResponse';
 
 // Styles
@@ -19,7 +19,7 @@ class App extends Component {
   render() {
     return (
       <AppContainer>
-        <h2>React-Redux-Starter-Kit</h2>
+        <h2>Wallet app</h2>
 
         <Button onClick={() => this.handleClick(!this.props.testState)}>
           Request API: {this.props.latestRatesState.status}
@@ -31,7 +31,7 @@ class App extends Component {
   };
 
   handleClick(value) {
-    // set some state in the redux store
+    // set some state in the reduxConfig store
     this.props.dispatch(setTest(value));
     // make an API request
     this.loadLatestRates();

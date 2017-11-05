@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const pathList = require("./pathList");
 const path = require('path');
 
@@ -6,6 +7,9 @@ const path = require('path');
 const plugins = [
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify('production')
+  }),
+  new HtmlWebpackPlugin({
+    template: './static/index.html',
   }),
 ];
 
@@ -51,10 +55,9 @@ module.exports = {
       'node_modules'
     ],
     alias: {
-      "/": pathList.src,
       components: path.resolve(__dirname, `${pathList.src}/components/`),
       containers: path.resolve(__dirname, `${pathList.src}/containers/`),
-
+      reduxConfig: path.resolve(__dirname, `${pathList.src}/reduxConfig/`),
     }
   },
   devtool: "source-map",

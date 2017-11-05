@@ -1,6 +1,6 @@
 import {handleActions} from 'redux-actions';
 import immutable from 'seamless-immutable';
-import ActionTypes from 'redux/constants/ActionTypes';
+import ActionTypes from '../constants/ActionTypes';
 import {AsyncState, prepareStateRequest, prepareStateSuccess, prepareStateFail} from 'objects/AsyncState.js';
 
 const initialState = immutable.from({
