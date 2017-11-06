@@ -1,5 +1,6 @@
 import styled from 'styled-components';
+import RaisedButton from 'material-ui/RaisedButton';
 
-export const Container = styled.div`
+export const StyledButton = styled(RaisedButton)`
   margin: 12px
 `;
