@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import RaisedButton from 'material-ui/RaisedButton';
-
-import { Container } from 'components/Button/styled';
+import { StyledButton } from './styled';
 
 export default class Button extends Component {
   static propsTypes = {
@@ -20,14 +18,12 @@ export default class Button extends Component {
     const { children, onClick, isDisabled: disabled } = this.props;
     
     return (
-      <Container>
-        <RaisedButton
-          label={children}
-          primary
-          disabled={disabled}
-          onClick={onClick}
-        />
-      </Container>
+      <StyledButton
+        label={children}
+        primary
+        disabled={disabled}
+        onClick={onClick}
+      />
     )
   }
 };
