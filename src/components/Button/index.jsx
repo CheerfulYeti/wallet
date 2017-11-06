@@ -1,28 +1,33 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import RaisedButton from 'material-ui/RaisedButton';
 
-const style = {
-  margin: 12,
-};
+import { Container } from 'components/Button/styled';
 
 export default class Button extends Component {
   static propsTypes = {
     onClick: PropTypes.func,
     isDisabled: PropTypes.bool,
   };
+
+  static defaultProps = {
+    onClick: null,
+    isDisabled: false,
+  };
   
   render() {
-    const { children, onClick, isDisabled } = this.props;
-    const className = cn({
-      "component-button": true,
-      disabled: isDisabled
-    });
+    const { children, onClick, isDisabled: disabled } = this.props;
     
     return (
-      <RaisedButton className={className} label={children} primary style={style} onClick={onClick} />
+      <Container>
+        <RaisedButton
+          label={children}
+          primary
+          disabled={disabled}
+          onClick={onClick}
+        />
+      </Container>
     )
   }
 };
