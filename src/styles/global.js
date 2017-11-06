@@ -6,5 +6,7 @@ export default injectGlobal`
   body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #2e2e2e;
+    padding: 0;
+    margin: 0;
   }
 `

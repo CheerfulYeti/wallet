@@ -1,49 +1,54 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form'
-import MenuItem from 'material-ui/MenuItem'
-import { RadioButton } from 'material-ui/RadioButton'
-import {
-  Checkbox,
-  RadioButtonGroup,
-  SelectField,
-  TextField,
-  Toggle,
-  DatePicker
-} from 'redux-form-material-ui'
+import { Link } from 'react-router-dom'
+import Form from './Form';
+import SaveDataToFile from './SaveDataToFile';
+import styled from 'styled-components';
 
-class MyForm extends Component {
+const list = {
+  Form,
+  SaveDataToFile,
+};
+
+export const GoBack = styled.div`
+  background-color: #f5f5f5;
+  padding: 10px;
+`;
+
+class Test extends Component {
   render() {
+    const { pathname } = document.location;
+    let params = (new URL(document.location)).searchParams;
+    let name = params.get("component");
+    
+    if (name) {
+      if (list[name]) {
+        const Component = list[name];
+        return (
+          <div>
+            <GoBack>
+              <Link to={pathname}>GoBack</Link>
+            </GoBack>
+            <Component/>
+          </div>
+        );
+      } else {
+        console.warn(`Unknown component ${name}`);
+      }
+    }
+    
     return (
-      <form>
-        <Field name="username" component={TextField} hintText="Street"/>
-  
-        <Field name="plan" component={SelectField} hintText="Select a plan">
-          <MenuItem value="monthly" primaryText="Monthly"/>
-          <MenuItem value="yearly" primaryText="Yearly"/>
-          <MenuItem value="lifetime" primaryText="Lifetime"/>
-        </Field>
-  
-        <Field name="agreeToTerms" component={Checkbox} label="Agree to terms?"/>
-  
-        <Field name="eventDate" component={DatePicker} format={null} hintText="What day is the event?"/>
-  
-        <Field name="receiveEmails" component={Toggle} label="Please spam me!"/>
-  
-        <Field name="bestFramework" component={RadioButtonGroup}>
-          <RadioButton value="react" label="React"/>
-          <RadioButton value="angular" label="Angular"/>
-          <RadioButton value="ember" label="Ember"/>
-        </Field>
-      </form>
+      <div>
+        {
+          Object.keys(list).map((name, key) => (
+            <div key={key}>
+              <Link to={`${pathname}?component=${name}`}>{name}</Link>
+            </div>
+          ))
+        }
+      </div>
     );
   }
 }
 
-// Decorate with redux-form
-MyForm = reduxForm({
-  form: 'myForm'
-})(MyForm);
 
-
-export default connect(null)(MyForm);
+export default Test;
