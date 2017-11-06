@@ -4,4 +4,5 @@ export default {
   loginRegistration: '/login/registration',
   status: '/status',
   transfer: '/transfer',
+  test: '/test',
 }

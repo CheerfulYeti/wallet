@@ -5,7 +5,8 @@ import {getLatestRates} from 'reduxConfig/actions/Currency';
 import ApiResponse from 'components/ApiResponse';
 
 // Styles
-import { AppContainer, Button } from './styled';
+import { AppContainer } from './styled';
+import Button from 'components/Button';
 
 const mapStateToProps = function (store) {
   return {
@@ -41,6 +42,5 @@ class App extends Component {
     this.props.dispatch(getLatestRates());
   };
 }
-;
 
 export default connect(mapStateToProps)(App);

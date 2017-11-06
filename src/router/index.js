@@ -6,8 +6,9 @@ import componentList from './componentList';
 
 export default () => (
   <Switch>
-    <Route exact path={routeList.home} component={componentList.home} />
-    <Route exact path={routeList.loginAuth} component={componentList.loginAuth} />
-    <Route exact path={routeList.loginRegistration} component={componentList.loginRegistration} />
+    <Route exact strict={false} path={routeList.home} component={componentList.home} />
+    <Route exact strict={false} path={routeList.loginAuth} component={componentList.loginAuth} />
+    <Route exact strict={false} path={routeList.loginRegistration} component={componentList.loginRegistration} />
+    <Route exact strict={false} path={routeList.test} component={componentList.test} />
   </Switch>
 );
