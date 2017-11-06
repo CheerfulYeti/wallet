@@ -14,12 +14,25 @@ export const GoBack = styled.div`
   padding: 10px;
 `;
 
+const getComponent = () => {
+  if (window.location.search) {
+    let params = {};
+    window.location.search.split('?')[1].split('&').forEach(function (pair) {
+      pair = (pair + '=').split('=').map(decodeURIComponent);
+      if (pair[0].length) {
+        params[pair[0]] = pair[1];
+      }
+    });
+    return params['component']
+  }
+  return null;
+};
+
 class Test extends Component {
   render() {
     const { pathname } = document.location;
-    let params = (new URL(document.location)).searchParams;
-    let name = params.get("component");
-    
+    let name = getComponent();
+
     if (name) {
       if (list[name]) {
         const Component = list[name];
