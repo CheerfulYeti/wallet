@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import Form from './Form';
 import SaveDataToFile from './SaveDataToFile';
+import GenerateKeys from './GenerateKeys';
 import styled from 'styled-components';
 
 const list = {
   Form,
   SaveDataToFile,
+  GenerateKeys,
 };
 
 export const GoBack = styled.div`
