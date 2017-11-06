@@ -6,20 +6,46 @@ const loaders = require('./webpack.loaders');
 
 const plugins = [
   new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify('develop')
+    'process.env.NODE_ENV': JSON.stringify('production')
   }),
   new HtmlWebpackPlugin({
     template: './static/index.html',
   }),
 ];
 
+if (process.env.NODE_ENV === 'production') {
+  plugins.push(
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+      debug: false
+    })
+  ),
+    plugins.push(
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          warnings: false,
+          screw_ie8: true,
+          conditionals: true,
+          unused: true,
+          comparisons: true,
+          sequences: true,
+          dead_code: true,
+          evaluate: true,
+          if_return: true,
+          join_vars: true,
+        },
+        output: {
+          comments: false,
+        },
+      })
+    );
+}
+
 module.exports = {
   entry: `${pathList.src}/index.jsx`,
   output: {
-    publicPath: '/',
     filename: 'bundle.js',
-    path: path.resolve(__dirname, '/dist'),
-    sourceMapFilename: '[name].js,map',
+    path: path.resolve(__dirname, 'dist')
   },
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -33,12 +59,11 @@ module.exports = {
       reduxConfig: path.resolve(__dirname, `${pathList.src}/reduxConfig/`),
     }
   },
-  devtool: process.env.WEBPACK_DEVTOOL || 'cheap-module-source-map',
+  devtool: "source-map",
   devServer: {
     contentBase: pathList.src,
     hot: true,
     port: 3000,
-    historyApiFallback: true,
   },
   module: {
     loaders,
