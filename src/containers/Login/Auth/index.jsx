@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { store } from 'reduxConfig/storeConfig';
-// import Actions from 'reduxConfig/actions/`Auth`Actions';
+import BaseContainer from 'components/BaseContainer';
 
-import { Container } from './styled';
+import Form from './Form';
 
 const mapStateToProps = function (state) {
   return {
@@ -12,7 +11,7 @@ const mapStateToProps = function (state) {
   };
 };
 
-class Auth extends Component {
+class Registration extends Component {
 
   static propTypes = {};
 
@@ -28,9 +27,16 @@ class Auth extends Component {
 
   render() {
     return (
-      <Container>Auth</Container>
+      <BaseContainer>
+        <Form handleSubmit={this.handleConfirm}/>
+      </BaseContainer>
     )
   };
+
+  handleConfirm = (e, data) => {
+    e.preventDefault(e);
+    console.log('data: ', e);
+  }
 };
 
-export default connect(mapStateToProps)(Auth);
+export default connect(mapStateToProps)(Registration);
