@@ -31,6 +31,8 @@ module.exports = {
       components: path.resolve(__dirname, `${pathList.src}/components/`),
       containers: path.resolve(__dirname, `${pathList.src}/containers/`),
       reduxConfig: path.resolve(__dirname, `${pathList.src}/reduxConfig/`),
+      validation: path.resolve(__dirname, `${pathList.src}/validation/`),
+      styledComponents: path.resolve(__dirname, `${pathList.src}/styledComponents/`),
     }
   },
   devtool: process.env.WEBPACK_DEVTOOL || 'cheap-module-source-map',
