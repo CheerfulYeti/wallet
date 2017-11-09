@@ -4,7 +4,7 @@ import { saveToFile } from 'helpers/file';
 import { generateKey, getExportedKeys, encrypt } from 'helpers/crypro';
 
 const password = "fhskefhekjh";
-function test() {
+function test(password) {
   generateKey().then(keys => {
     // console.log("point-1510086788259", keys);
     getExportedKeys(keys).then(exportedKeys => {

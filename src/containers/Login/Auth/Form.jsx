@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
-import Button from 'styledComponents/RaisedButton';
+import Button from 'material-ui/FlatButton';
+import { RaisedButtonStyled, FileInputStyled, FileNameStyled } from './styled';
+import PropTypes from 'prop-types';
 
+// import { RegForm, FieldStyled } from './styled';
 import { Form as RegForm, FieldStyled as Field } from 'styledComponents/form';
 
 import {
@@ -11,21 +14,29 @@ import {
 } from 'validation/fields';
 
 const Form = (props) => {
-  const { handleSubmit, submitting } = props;
-
+  const { handleSubmit, pristine, reset, submitting, onLoadFile, keyFileName } = props;
+  // console.log('form props: ', props);
   return (
     <RegForm onSubmit={handleSubmit}>
+      <RaisedButtonStyled
+        label="Choose a key file"
+        labelPosition="before"
+        containerElement="label"
+        onChange={(e) => {
+          onLoadFile(e, e.target.value);
+        }}
+      >
+        <FileInputStyled type="file" />
+        <FileNameStyled>{keyFileName}</FileNameStyled>
+      </RaisedButtonStyled>
       <Field
-        name="Private key"
+        name="password"
         type={'password'}
-        validate={[required, minLength64]}
+        validate={[required]}
         component={TextField}
-        hintText="Enter your private key"
+        hintText="Enter your password"
       />
-      <Button
-        disabled={submitting}
-        primary
-        label="Unlock wallet"/>
+      <Button type="submit" disabled={submitting}>Unlock wallet</Button>
 
     </RegForm>
   )
