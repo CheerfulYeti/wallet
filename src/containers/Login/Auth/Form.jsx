@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
-import Button from 'material-ui/FlatButton';
-import PropTypes from 'prop-types';
+import Button from 'styledComponents/RaisedButton';
 
-// import { RegForm, FieldStyled } from './styled';
 import { Form as RegForm, FieldStyled as Field } from 'styledComponents/form';
 
 import {
@@ -13,9 +11,7 @@ import {
 } from 'validation/fields';
 
 const Form = (props) => {
-  const { handleSubmit, pristine, reset, submitting } = props;
-  
-  console.log('form props: ', props);
+  const { handleSubmit, submitting } = props;
 
   return (
     <RegForm onSubmit={handleSubmit}>
@@ -26,7 +22,10 @@ const Form = (props) => {
         component={TextField}
         hintText="Enter your private key"
       />
-      <Button type="submit" disabled={submitting}>Unlock wallet</Button>
+      <Button
+        disabled={submitting}
+        primary
+        label="Unlock wallet"/>
 
     </RegForm>
   )

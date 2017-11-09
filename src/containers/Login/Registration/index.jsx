@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import Button from 'styledComponents/RaisedButton';
+
 import BaseContainer from 'components/BaseContainer';
+import Centered from 'styledComponents/centered';
+import RouteList from 'router/routeList';
 
 import Form from './Form';
-
-const mapStateToProps = function (state) {
-  return {
-    // REPLACE
-    // data: state.$ComponentName.data,
-  };
-};
+import generateKeyFile from './Keys';
 
 class Registration extends Component {
 
@@ -28,15 +27,40 @@ class Registration extends Component {
   render() {
     return (
       <BaseContainer>
-        <Form handleSubmit={this.handleConfirm}/>
+        <Centered>
+        {
+          this.props.isFileGenerated
+            ? <Link to={RouteList.loginAuth}>
+                <Button secondary type="submit" label="Unlock your wallet"/>
+              </Link>
+            : <Form handleSubmit={this.handleConfirm}/>
+        }
+        </Centered>
       </BaseContainer>
     )
   };
 
-  handleConfirm = (e, data) => {
+  handleConfirm = (e) => {
     e.preventDefault(e);
-    console.log('data: ', e);
+    console.log('pass: ', this.props.password);
+
+    generateKeyFile(this.props.password);
   }
+};
+
+const mapStateToProps = function (state) {
+  const {
+    form: {
+      registration: {
+        values: { password = '' } = {}
+      } = {}
+    } = {},
+    keys: { isFileGenerated }
+  } = state;
+  return {
+    password,
+    isFileGenerated,
+  };
 };
 
 export default connect(mapStateToProps)(Registration);

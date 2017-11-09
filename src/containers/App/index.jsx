@@ -1,7 +1,7 @@
 import React, {Component}  from 'react';
 import {connect} from 'react-redux';
-import {setTest} from 'reduxConfig/actions/App';
-import {getLatestRates} from 'reduxConfig/actions/Currency';
+import {setTest} from 'reduxConfig/actions/app';
+import {getLatestRates} from 'reduxConfig/actions/currency';
 import ApiResponse from 'components/ApiResponse';
 
 // Styles
