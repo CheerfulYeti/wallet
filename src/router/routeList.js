@@ -5,4 +5,5 @@ export default {
   status: '/status',
   transfer: '/transfer',
   test: '/test',
+  profile: '/profile',
 }

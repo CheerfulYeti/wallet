@@ -10,5 +10,6 @@ export default () => (
     <Route exact strict={false} path={routeList.loginAuth} component={componentList.loginAuth} />
     <Route exact strict={false} path={routeList.loginRegistration} component={componentList.loginRegistration} />
     <Route exact strict={false} path={routeList.test} component={componentList.test} />
+    <Route exact strict={false} path={routeList.profile} component={componentList.profile} />
   </Switch>
 );
