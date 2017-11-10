@@ -11,19 +11,6 @@ import Form from './Form';
 import generateKeyFile from './Keys';
 
 class Registration extends Component {
-
-  static propTypes = {};
-
-  static defaultProps = {};
-
-  componentWillReceiveProps(props) {
-
-  };
-
-  componentWillMount() {
-
-  };
-
   render() {
     return (
       <BaseContainer>
