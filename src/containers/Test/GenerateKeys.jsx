@@ -1,22 +1,27 @@
 import React, { Component } from 'react';
 import { defaultKeysFileName } from 'config/app';
 import { saveToFile } from 'helpers/file';
-import { generateKey, getExportedKeys, encrypt } from 'helpers/crypto';
+import { generateKey, getExportedKeys, encrypt, sign, verify } from 'helpers/crypto';
 
-const password = "fhskefhekjh";
-function test(password) {
+function test(password = '11') {
   generateKey().then(keys => {
-    // console.log("point-1510086788259", keys);
     getExportedKeys(keys).then(exportedKeys => {
       const [publicKey, privateKey] = exportedKeys;
-  
       const data = {
         privateKey: encrypt(privateKey, password),
         publicKey,
         date: new Date().getTime(),
       };
-      // console.log("point-1510085824729", data);
       saveToFile(defaultKeysFileName, data);
+      
+      const request = {
+        timestamp: new Date().getTime(),
+      };
+      sign(keys, request).then(signature => {
+        verify(keys, signature, request).then(data => {
+          console.log("point-1510086180508 verify result", data);
+        });
+      });
     });
   });
 }

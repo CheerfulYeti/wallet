@@ -10,10 +10,9 @@ function handleFileSelect(evt) {
   loadFromFile(evt.target, (content) => {
     const data = JSON.parse(content);
     data.privateKey = decrypt(data.privateKey, password);
-    console.log("%cP-1510436116156", 'background: #222; color: #bada55', data);
-    getImportedKeys(data).then(importedKeys => {
-      sign(importedKeys, request).then(signature => {
-        verify(importedKeys, signature, request).then(data => {
+    getImportedKeys(data).then((keys) => {
+      sign(keys, request).then(signature => {
+        verify(keys, signature, request).then(data => {
           console.log("point-1510086180508 verify result", data);
         });
       });
