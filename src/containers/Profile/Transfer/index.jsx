@@ -14,10 +14,10 @@ class AccountInfo extends Component {
     console.log('props: ', props.transfer);
 
     // TODO update balance
-    // if (props.transfer.needShowData === true) {
-    //   this.props.updateBalance();
-    //   // this.props.dispatch(async.reset(async.methodList.event.add));
-    // }
+    if (props.transfer.needShowData === true) {
+      // this.props.updateBalance();
+      // this.props.dispatch(async.reset(async.methodList.event.add));
+    }
   };
 
   componentWillMount() {
