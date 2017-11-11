@@ -11,6 +11,8 @@ export default {
       getLatestRatesSuccess: 'CURRENCY/ASYNC/GET_LATEST_RATES_SUCCESS',
       getLatestRatesFail: 'CURRENCY/ASYNC/GET_LATEST_RATES_FAIL',
     }
-  }
-
+  },
+  user: {
+    setKeys: 'USER/SET_KEYS',
+  },
 }
