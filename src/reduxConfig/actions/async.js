@@ -1,7 +1,8 @@
 import {createAction} from 'redux-actions';
 import api from 'api/api.js';
-import actionTypes from '../constants/actionTypes';
 import { AsyncState } from 'objects/AsyncState';
+import { errorCodes, errorMessages } from 'constants/errors';
+import actionTypes from '../constants/actionTypes';
 
 export const methodList = {
   account: {
@@ -10,28 +11,42 @@ export const methodList = {
   },
 };
 
-const async = {
+const actions = {
   request: createAction(actionTypes.async.request),
   success: createAction(actionTypes.async.success),
   fail: createAction(actionTypes.async.fail),
 };
 
 export const load = (method, params) => (dispatch) => {
-  dispatch(async.request({
+  dispatch(actions.request({
     method,
     data: params,
   }));
   api(method, params)
     .then(response => {
-      dispatch(async.success({
+      dispatch(actions.success({
         method,
         data: response,
       }));
     })
-    .catch(error => {
-      dispatch(async.fail({
+    .catch(response => {
+      const data = response.data();
+      let code = errorCodes.UNEXPECTED_ERROR;
+      let message = errorMessages.UNEXPECTED_ERROR;
+      if (data.status) {
+        code = data.status;
+      } else {
+        console.error(response);
+      }
+      if (data.error && data.error.message) {
+        message = data.error.message;
+      }
+      dispatch(actions.fail({
         method,
-        data: error,
+        data: {
+          message,
+          code,
+        },
       }));
       
     });
@@ -48,4 +63,5 @@ export default {
   load,
   methodList,
   getStoreState,
+  actions,
 };

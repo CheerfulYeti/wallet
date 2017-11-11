@@ -25,14 +25,16 @@ const mapDispatchToProps = (dispatch) => {
     loadAccountInfo: (params) => {
       dispatch(async.load(async.methodList.account.getInfo, params));
     },
+    setError: (error) => {
+      dispatch(async.actions.fail({
+        method: async.methodList.account.getInfo,
+        data: error,
+      }))
+    },
   };
 };
 
 class Registration extends Component {
-  static propTypes = {};
-  
-  static defaultProps = {};
-  
   constructor(props) {
     super(props);
     
@@ -42,7 +44,10 @@ class Registration extends Component {
   }
   
   componentWillReceiveProps(props) {
-  
+    const { accountInfo } = props;
+    if (accountInfo.hasRequested && accountInfo.needShowData) {
+      console.log("point-1510242125263", 'load success, user logged in');
+    }
   };
   
   componentWillMount() {
@@ -51,17 +56,18 @@ class Registration extends Component {
   
   render() {
     const { accountInfo } = this.props;
+    const { error } = accountInfo;
     return (
       <ContainerStyled>
         <AsyncBlock
           asyncState={accountInfo}
-          renderError={() => (
-            <div>{accountInfo.error.message}</div>
-          )}
         >
           <BaseContainer>
             <Form
-              handleSubmit={this.handleConfirm} onLoadFile={this.handleLoadFile} keyFileName={this.state.keyFileName}
+              handleSubmit={this.handleConfirm}
+              onLoadFile={this.handleLoadFile}
+              keyFileName={this.state.keyFileName}
+              asyncError={error}
             />
           </BaseContainer>
         </AsyncBlock>
@@ -100,11 +106,13 @@ class Registration extends Component {
         this.props.loadAccountInfo({
           accountHash: data.publicHash,
         });
-        console.log("point-1510242125263", 'load success, user logged in');
       });
     }
     catch (e) {
-      console.error("Wrong password or key file");
+      this.props.setError({
+        code: -100,
+        message: "Wrong password or key file",
+      });
     }
   }
 }

@@ -11,24 +11,22 @@ import {
 
 const initialState = immutable.from({});
 
+const getNewState = (state, action, prepareMethod) => {
+  const { method, data } = action.payload;
+  const asyncState = state[method] ? state[method] : new AsyncState();
+  return immutable.merge(state, {
+    [method]: prepareMethod(asyncState, data),
+  }, { deep: true, });
+};
+
 export default handleActions({
-  [actionTypes.async.request]: (state, action) => {
-    const { method, data } = action.payload;
-    const asyncState = state[method] ? state[method] : new AsyncState();
-    return immutable.merge(state, {
-      [method]: prepareStateRequest(asyncState, data),
-    }, { deep: true, });
-  },
-  [actionTypes.async.success]: (state, action) => {
-    const { method, data } = action.payload;
-    return immutable.merge(state, {
-      [method]: prepareStateSuccess(state[method], data),
-    }, { deep: true, });
-  },
-  [actionTypes.async.fail]: (state, action) => {
-    const { method, data } = action.payload;
-    return immutable.merge(state, {
-      [method]: prepareStateFail(state[method], data),
-    }, { deep: true, });
-  },
+  [actionTypes.async.request]: (state, action) => (
+    getNewState(state, action, prepareStateRequest)
+  ),
+  [actionTypes.async.success]: (state, action) => (
+    getNewState(state, action, prepareStateSuccess)
+  ),
+  [actionTypes.async.fail]: (state, action) => (
+    getNewState(state, action, prepareStateFail)
+  ),
 }, initialState);

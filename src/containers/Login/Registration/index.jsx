@@ -29,9 +29,10 @@ class Registration extends Component {
 
   handleConfirm = (e) => {
     e.preventDefault(e);
-    console.log('pass: ', this.props.password);
-
-    generateKeyFile(this.props.password);
+    // console.log('pass: ', this.props.password);
+    if (this.props.password.length >= 2) {
+      generateKeyFile(this.props.password);
+    }
   }
 }
 

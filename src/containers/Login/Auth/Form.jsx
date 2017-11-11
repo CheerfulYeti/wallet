@@ -1,21 +1,17 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import { reduxForm } from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
-import Button from 'material-ui/FlatButton';
+import Button from 'styledComponents/RaisedButton';
 import { RaisedButtonStyled, FileInputStyled, FileNameStyled } from './styled';
-import PropTypes from 'prop-types';
-
-// import { RegForm, FieldStyled } from './styled';
+import ErrorText from 'styledComponents/errorText';
 import { Form as RegForm, FieldStyled as Field } from 'styledComponents/form';
 
 import {
   required,
-  minLength64,
 } from 'validation/fields';
 
 const Form = (props) => {
-  const { handleSubmit, pristine, reset, submitting, onLoadFile, keyFileName } = props;
-  // console.log('form props: ', props);
+  const { handleSubmit, submitting, onLoadFile, keyFileName, asyncError } = props;
   return (
     <RegForm onSubmit={handleSubmit}>
       <RaisedButtonStyled
@@ -36,7 +32,17 @@ const Form = (props) => {
         component={TextField}
         hintText="Enter your password"
       />
-      <Button type="submit" disabled={submitting}>Unlock wallet</Button>
+      {
+        (asyncError && asyncError.message)
+        &&
+        <ErrorText>{asyncError.message}</ErrorText>
+      }
+      <Button
+        label="Unlock wallet"
+        type="submit"
+        disabled={submitting}
+        primary
+      />
 
     </RegForm>
   )

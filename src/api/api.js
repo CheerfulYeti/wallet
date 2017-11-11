@@ -5,40 +5,38 @@ import resources from './resources';
 
 const apiAlias = 'localhost';
 
-const errorMiddleware = () => ({
+const dataMiddleware = () => ({
   request(request) {
     let headers = {};
-    if (request.publicKey) {
-      headers['X-Public-Key'] = request.publicKey;
-      delete request.publicKey;
+    if (request.requestParams.publicKey) {
+      headers['X-Public-Key'] = request.requestParams.publicKey;
+      delete request.requestParams.publicKey;
     }
-    
     return request.enhance({
       headers,
-      body: request,
-    })
+    });
   },
   
   response(next) {
     return next().then((response) => {
       let data = {};
       try {
-        data = JSON.parse(response.data());
+        data = response.data();
       } catch (e) {}
-      // if (!data.status) {
-      //   throw {
-      //     code: data.status,
-      //     message: data.message ? data.message : 'Произошла непредвиденная ошибка',
-      //   };
-      // }
+      if (data.status === undefined || data.status !== 0) {
+        throw {
+          code: data.status,
+          message: data.message ? data.message : 'Произошла непредвиденная ошибка',
+        };
+      }
       return data;
     });
-  }
+  },
 });
 
 const client = forge({
   resources,
-  middlewares: [ errorMiddleware ],
+  middlewares: [ dataMiddleware ],
   host: config.api[apiAlias].host,
 });
 
