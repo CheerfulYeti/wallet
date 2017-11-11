@@ -21,8 +21,6 @@ export const load = (method, params) => (dispatch) => {
     method,
     data: params,
   }));
-  console.log("%cP-1510399736385", 'background: #222; color: #bada55', method);
-  console.log("%cP-1510399738463", 'background: #222; color: #bada55', params);
   api(method, params)
     .then(response => {
       dispatch(async.success({

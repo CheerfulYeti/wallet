@@ -50,16 +50,21 @@ class Registration extends Component {
   };
   
   render() {
+    const { accountInfo } = this.props;
     return (
       <ContainerStyled>
         <AsyncBlock
-          asyncState={this.props.accountInfo}
-        />
-        <BaseContainer>
-          <Form
-            handleSubmit={this.handleConfirm} onLoadFile={this.handleLoadFile} keyFileName={this.state.keyFileName}
-          />
-        </BaseContainer>
+          asyncState={accountInfo}
+          renderError={() => (
+            <div>{accountInfo.error.message}</div>
+          )}
+        >
+          <BaseContainer>
+            <Form
+              handleSubmit={this.handleConfirm} onLoadFile={this.handleLoadFile} keyFileName={this.state.keyFileName}
+            />
+          </BaseContainer>
+        </AsyncBlock>
       </ContainerStyled>
     )
   };

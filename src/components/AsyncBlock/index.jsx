@@ -1,14 +1,23 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from 'material-ui/styles';
+import CircularProgress from 'material-ui/CircularProgress';
 import Loader from 'components/Loader';
 
 import './styles.scss';
 
 export default class AsyncBlock extends Component {
-  
   static propTypes = {
     asyncState: PropTypes.object,
     className: PropTypes.string,
+    renderData: PropTypes.func,
+  };
+  
+  static defaultProps = {
+    asyncState: {},
+    className: '',
+    renderData: () => {},
+    renderError: () => {},
   };
   
   render() {
@@ -19,26 +28,26 @@ export default class AsyncBlock extends Component {
     
     return (
       <div className={className}>
-        
         {
-          (asyncState.needShowLoader) && <Loader/>
+          (asyncState.needShowLoader)
+          &&
+          <div className="loader-component">
+            <CircularProgress/>
+          </div>
         }
-        
+        {
+          this.props.children
+        }
         <div className="response">
-          
           {
-            (asyncState.needShowData) &&
-            ((this.props.children)
-              ? this.props.children
-              : <div className="data-text">{JSON.stringify(asyncState.data)}</div>)
-            
+            (asyncState.needShowData) && this.props.renderData()
           }
           
           {
-            (asyncState.needShowError) && <div className="error">{asyncState.error.responseData}</div>
-            
+            (asyncState.needShowError)
+            &&
+            this.props.renderError()
           }
-        
         </div>
       
       </div>
