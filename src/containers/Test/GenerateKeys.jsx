@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { defaultKeysFileName } from 'config/app';
 import { saveToFile } from 'helpers/file';
-import { generateKey, getExportedKeys, encrypt } from 'helpers/crypro';
+import { generateKey, getExportedKeys, encrypt } from 'helpers/crypto';
 
 const password = "fhskefhekjh";
 function test(password) {

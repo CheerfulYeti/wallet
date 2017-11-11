@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { loadFromFile } from 'helpers/file';
-import { getImportedKeys, sign, verify, decrypt } from 'helpers/crypro';
+import { getImportedKeys, sign, verify, decrypt } from 'helpers/crypto';
 import { str2ab, ab2str } from 'helpers/common';
 
 const password = "fhskefhekjh";

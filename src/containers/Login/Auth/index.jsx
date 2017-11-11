@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import BaseContainer from 'components/BaseContainer';
 import { loadFromFile } from 'helpers/file';
-import { getImportedKeys, sha256, decrypt } from 'helpers/crypro';
+import { getImportedKeys, sha256, decrypt } from 'helpers/crypto';
 import { setKeys } from 'reduxConfig/actions/user';
 import async from 'reduxConfig/actions/async';
 import AsyncBlock from 'components/AsyncBlock';

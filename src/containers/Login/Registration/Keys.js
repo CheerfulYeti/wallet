@@ -1,6 +1,6 @@
 import { defaultKeysFileName } from 'config/app';
 import { saveToFile } from 'helpers/file';
-import { generateKey, getExportedKeys, encrypt } from 'helpers/crypro';
+import { generateKey, getExportedKeys, encrypt } from 'helpers/crypto';
 
 import store from 'reduxConfig/store';
 import { setIsFileGenerated } from 'reduxConfig/actions/keys';
