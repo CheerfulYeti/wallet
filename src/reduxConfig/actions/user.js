@@ -1,5 +1,5 @@
 import {createAction} from 'redux-actions';
-import actionTypes from '../constants/ActionTypes';
+import actionTypes from '../constants/actionTypes';
 
 export const setKeys = createAction(actionTypes.user.setKeys);
 

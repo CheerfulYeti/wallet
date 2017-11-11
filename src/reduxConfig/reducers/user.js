@@ -1,6 +1,6 @@
 import {handleActions} from 'redux-actions';
 import immutable from 'seamless-immutable';
-import ActionTypes from '../constants/ActionTypes';
+import actionTypes from '../constants/actionTypes';
 
 const initialState = immutable.from({
   privateKey: null,
@@ -8,7 +8,7 @@ const initialState = immutable.from({
 });
 
 export default handleActions({
-  [ActionTypes.user.setKeys]: (state, action) => {
+  [actionTypes.user.setKeys]: (state, action) => {
     return immutable(state).merge({
       privateKey: action.payload.privateKey,
       publicKey: action.payload.publicKey,
