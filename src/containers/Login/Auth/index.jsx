@@ -10,30 +10,6 @@ import Form from './Form';
 
 import { ContainerStyled } from './styled';
 
-const mapStateToProps = function (state) {
-  return {
-    accountInfo: async.getStoreState(state, async.methodList.account.getInfo),
-    formState: state.form['auth'],
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setKeys: (keys) => {
-      dispatch(setKeys(keys));
-    },
-    loadAccountInfo: (params) => {
-      dispatch(async.load(async.methodList.account.getInfo, params));
-    },
-    setError: (error) => {
-      dispatch(async.actions.fail({
-        method: async.methodList.account.getInfo,
-        data: error,
-      }))
-    },
-  };
-};
-
 class Registration extends Component {
   constructor(props) {
     super(props);
@@ -47,13 +23,11 @@ class Registration extends Component {
     const { accountInfo } = props;
     if (accountInfo.hasRequested && accountInfo.needShowData) {
       console.log("point-1510242125263", 'load success, user logged in');
+      // redirect to profile
+      this.props.history.push('/profile');
     }
   };
-  
-  componentWillMount() {
-  
-  };
-  
+
   render() {
     const { accountInfo } = this.props;
     const { error } = accountInfo;
@@ -116,5 +90,29 @@ class Registration extends Component {
     }
   }
 }
+
+const mapStateToProps = function (state) {
+  return {
+    accountInfo: async.getStoreState(state, async.methodList.account.getInfo),
+    formState: state.form['auth'],
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setKeys: (keys) => {
+      dispatch(setKeys(keys));
+    },
+    loadAccountInfo: (params) => {
+      dispatch(async.load(async.methodList.account.getInfo, params));
+    },
+    setError: (error) => {
+      dispatch(async.actions.fail({
+        method: async.methodList.account.getInfo,
+        data: error,
+      }))
+    },
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Registration);
