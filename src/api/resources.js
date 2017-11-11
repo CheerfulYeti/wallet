@@ -10,6 +10,7 @@ export default {
       path: 'account/register',
     },
     getInfo: {
+      useStub: true,
       method: method.get,
       path: 'account/info/{accountHash}',
     },
