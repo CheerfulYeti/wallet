@@ -33,7 +33,7 @@ class Registration extends Component {
 
     generateKeyFile(this.props.password);
   }
-};
+}
 
 const mapStateToProps = function (state) {
   const {

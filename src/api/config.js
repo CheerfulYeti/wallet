@@ -1,13 +1,8 @@
 export default {
-  useStubs: true,
   api: {
     localhost: {
-      host: "http://localhost:9000/",
+      host: "http://localhost:8001/",
       appId: 0
     },
-    openexchangerates: {
-      host: "https://openexchangerates.org/api/",
-      appId: ""
-    }
   }
 }

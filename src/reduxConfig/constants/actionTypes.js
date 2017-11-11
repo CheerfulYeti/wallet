@@ -15,4 +15,14 @@ export default {
   user: {
     setKeys: 'USER/SET_KEYS',
   },
+  
+  async: {
+    account: {
+      register: {
+        request: 'ASYNC_ACCOUNT_REGISTER_REQUEST',
+        success: 'ASYNC_ACCOUNT_REGISTER_SUCCESS',
+        fail: 'ASYNC_ACCOUNT_REGISTER_FAIL',
+      },
+    }
+  },
 }
