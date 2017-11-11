@@ -1,6 +1,7 @@
 import {createAction} from 'redux-actions';
 import api from 'api/api.js';
 import actionTypes from '../constants/actionTypes';
+import { AsyncState } from 'objects/AsyncState';
 
 export const methodList = {
   account: {
@@ -34,4 +35,11 @@ export const load = (method, params) => (dispatch) => {
       }));
       
     });
+};
+
+export const getStoreState = (state, method, defaultLoader) => {
+  if (!state.async[method]) {
+    return new AsyncState(defaultLoader);
+  }
+  return state.async[method];
 };

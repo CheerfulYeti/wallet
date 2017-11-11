@@ -34,6 +34,10 @@ export const prepareStateFail = function (asyncState, error) {
 
 
 export class AsyncState {
+  constructor(defaultLoader = false) {
+    this.needShowLoader = defaultLoader;
+  }
+  
   status = null;
   data = undefined;
   error = null;
