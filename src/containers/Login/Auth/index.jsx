@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import BaseContainer from 'components/BaseContainer';
 import { loadFromFile } from 'helpers/file';
-import { getImportedKeys, sign, verify, decrypt } from 'helpers/crypro';
+import { getImportedKeys, sha256, decrypt } from 'helpers/crypro';
 import { setKeys } from 'reduxConfig/actions/user';
+import async from 'reduxConfig/actions/async';
+import AsyncBlock from 'components/AsyncBlock';
 import Form from './Form';
+
+import { ContainerStyled } from './styled';
 
 const mapStateToProps = function (state) {
   return {
+    accountInfo: async.getStoreState(state, async.methodList.account.getInfo),
     formState: state.form['auth'],
   };
 };
@@ -16,6 +21,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setKeys: (keys) => {
       dispatch(setKeys(keys));
+    },
+    loadAccountInfo: (params) => {
+      dispatch(async.load(async.methodList.account.getInfo, params));
     },
   };
 };
@@ -43,11 +51,16 @@ class Registration extends Component {
   
   render() {
     return (
-      <BaseContainer>
-        <Form
-          handleSubmit={this.handleConfirm} onLoadFile={this.handleLoadFile} keyFileName={this.state.keyFileName}
+      <ContainerStyled>
+        <AsyncBlock
+          asyncState={this.props.accountInfo}
         />
-      </BaseContainer>
+        <BaseContainer>
+          <Form
+            handleSubmit={this.handleConfirm} onLoadFile={this.handleLoadFile} keyFileName={this.state.keyFileName}
+          />
+        </BaseContainer>
+      </ContainerStyled>
     )
   };
   
@@ -77,7 +90,11 @@ class Registration extends Component {
     try {
       data.privateKey = decrypt(data.privateKey, password);
       getImportedKeys(data).then(() => {
+        data.publicHash = sha256(data.publicKey.n);
         this.props.setKeys(data);
+        this.props.loadAccountInfo({
+          hash: data.publicHash,
+        });
         console.log("point-1510242125263", 'load success, user logged in');
       });
     }

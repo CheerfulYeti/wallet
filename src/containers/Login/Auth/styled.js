@@ -9,6 +9,9 @@ export const FileInputStyled = styled.input`
 `;
 
 export const FileNameStyled = styled.div`
+`;
 
+export const ContainerStyled = styled.div`
+  position: relative;
 `;
 

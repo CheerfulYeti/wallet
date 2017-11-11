@@ -6,6 +6,7 @@ import { AsyncState } from 'objects/AsyncState';
 export const methodList = {
   account: {
     register: 'account.register',
+    getInfo: 'account.getInfo',
   },
 };
 
@@ -20,7 +21,8 @@ export const load = (method, params) => (dispatch) => {
     method,
     data: params,
   }));
-  
+  console.log("%cP-1510399736385", 'background: #222; color: #bada55', method);
+  console.log("%cP-1510399738463", 'background: #222; color: #bada55', params);
   api(method, params)
     .then(response => {
       dispatch(async.success({
@@ -42,4 +44,10 @@ export const getStoreState = (state, method, defaultLoader) => {
     return new AsyncState(defaultLoader);
   }
   return state.async[method];
+};
+
+export default {
+  load,
+  methodList,
+  getStoreState,
 };

@@ -13,7 +13,6 @@ const initialState = immutable.from({});
 
 export default handleActions({
   [actionTypes.async.request]: (state, action) => {
-    console.log("point-1510396493644", action.payload);
     const { method, data } = action.payload;
     const asyncState = state[method] ? state[method] : new AsyncState();
     return immutable.merge(state, {

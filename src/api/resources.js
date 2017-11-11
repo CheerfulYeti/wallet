@@ -1,5 +1,6 @@
 const method = {
   post: 'post',
+  get: 'get',
 };
 
 export default {
@@ -9,9 +10,8 @@ export default {
       path: 'account/register',
     },
     getInfo: {
-      method: method.post,
-      path: 'account/info',
-    }
-    
+      method: method.get,
+      path: 'account/info/{hash}',
+    },
   },
 };

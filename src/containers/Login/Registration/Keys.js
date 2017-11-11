@@ -10,13 +10,11 @@ export default function generateKeyFile(password) {
   generateKey().then(keys => {
     getExportedKeys(keys).then(exportedKeys => {
       const [publicKey, privateKey] = exportedKeys;
-
       const data = {
         privateKey: encrypt(privateKey, password),
         publicKey,
         date: new Date().getTime(),
       };
-      
       saveToFile(defaultKeysFileName, data);
       store.dispatch(setIsFileGenerated(true));
       store.dispatch(load(methodList.account.register, {

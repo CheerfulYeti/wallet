@@ -1,4 +1,5 @@
 import CryptoJS from 'crypto-js';
+import CryptoSHA256  from 'crypto-js/sha256';
 import { algo, hashName } from 'config/app';
 import { string2Bin } from './common';
 
@@ -122,6 +123,11 @@ export const encrypt = (text, password) => {
 export const decrypt = (text, password) => {
   const bytes = CryptoJS.AES.decrypt(text, password);
   return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+};
+
+export const sha256 = (str) => {
+  const bytes = CryptoSHA256(str);
+  return bytes.toString(CryptoJS.enc.Hex);;
 };
 
 // const enc = encrypt("test", "123");

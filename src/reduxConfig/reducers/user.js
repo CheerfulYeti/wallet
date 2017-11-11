@@ -5,6 +5,7 @@ import actionTypes from '../constants/actionTypes';
 const initialState = immutable.from({
   privateKey: null,
   publicKey: null,
+  publicHash: null,
 });
 
 export default handleActions({
@@ -12,6 +13,7 @@ export default handleActions({
     return immutable(state).merge({
       privateKey: action.payload.privateKey,
       publicKey: action.payload.publicKey,
+      publicHash: action.payload.publicHash,
     }, { deep: true });
   },
 
