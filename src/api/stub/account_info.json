@@ -1,4 +1,6 @@
 {
-  "data": "xep",
-  "status": 0
+  "status": 0,
+  "amount": 4565675,
+  "type": 0,
+  "publickey": "publickey"
 }
