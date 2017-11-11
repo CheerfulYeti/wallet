@@ -6,21 +6,23 @@ export const maxLength = max => value =>
 export const minLength = min => value =>
   value && value.length < min ? `Must be ${min} characters or more` : undefined;
 
-const number = value =>
+export const number = value =>
   value && isNaN(Number(value)) ? 'Must be a number' : undefined;
-const minValue = min => value =>
-  value && value < min ? `Must be at least ${min}` : undefined;
-const email = value =>
+export const positiveNumber = value =>
+  number(value) || value < 0 ? 'Must be positive :D' : undefined;
+export const minValue = min => value =>
+  value && parseFloat(value) < min ? `Must be at least ${min}` : undefined;
+export const email = value =>
   value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
     ? 'Invalid email address'
     : undefined;
-const tooOld = value =>
+export const tooOld = value =>
   value && value > 65 ? 'You might be too old for this' : undefined;
-const aol = value =>
+export const aol = value =>
   value && /.+@aol\.com/.test(value)
     ? 'Really? You still use AOL for your email?'
     : undefined;
-const alphaNumeric = value =>
+export const alphaNumeric = value =>
   value && /[^a-zA-Z0-9 ]/i.test(value)
     ? 'Only alphanumeric characters'
     : undefined;

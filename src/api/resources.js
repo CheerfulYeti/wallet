@@ -10,16 +10,16 @@ export default {
       path: 'account/register',
     },
     getInfo: {
-      useStub: true,
+      useStub: false,
       method: method.get,
       path: 'account/info/{accountHash}',
     },
   },
   event: {
     add: {
-      useStub: false,
+      useStub: true,
       method: method.post,
-      path: 'event/post',
+      path: 'event/add',
     }
   },
 };

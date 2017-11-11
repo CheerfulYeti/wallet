@@ -7,10 +7,16 @@ import { FieldStyled as Field } from './styled';
 
 import {
   required,
+  positiveNumber,
 } from 'validation/fields';
 
 const Form = (props) => {
-  const { handleSubmit, submitting, onLoadFile, keyFileName, asyncError } = props;
+  const {
+    handleSubmit,
+    submitting,
+    valid,
+    asyncError,
+  } = props;
   return (
     <form onSubmit={handleSubmit}>
       <Field
@@ -18,11 +24,12 @@ const Form = (props) => {
         validate={[required]}
         component={TextField}
         fullWidth={true}
+        required
         floatingLabelText="To Address"
       /><br />
       <Field
         name="amount"
-        validate={[required]}
+        validate={[required, positiveNumber]}
         component={TextField}
         fullWidth={true}
         floatingLabelText="Amount"
@@ -30,11 +37,18 @@ const Form = (props) => {
       /><br />
       <Field
         name="commission"
-        validate={[required]}
+        validate={[required, positiveNumber]}
         component={TextField}
         fullWidth={true}
         floatingLabelText="Commission"
         type="number"
+      /><br />
+      <Field
+        name="message"
+        component={TextField}
+        fullWidth={true}
+        floatingLabelText="Message"
+        type="text"
       /><br />
       {
         (asyncError && asyncError.message)
@@ -44,7 +58,7 @@ const Form = (props) => {
       <Button
         label="Send"
         type="submit"
-        disabled={submitting}
+        disabled={submitting || !valid}
         primary
       />
 

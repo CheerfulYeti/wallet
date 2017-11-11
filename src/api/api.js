@@ -25,6 +25,7 @@ const prepareResources = function(resources) {
       result[groupKey][methodKey] = {
         ...item,
         path: (item.useStub) ? createStubURI(item.path) : item.path,
+        method: (item.useStub) ? 'get' : item.method,
       };
     });
   });

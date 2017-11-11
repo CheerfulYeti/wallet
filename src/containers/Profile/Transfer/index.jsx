@@ -10,13 +10,14 @@ import store from 'reduxConfig/store';
 import { TransferContainer } from './styled';
 
 class AccountInfo extends Component {
-
-  static propTypes = {};
-
-  static defaultProps = {};
-
   componentWillReceiveProps(props) {
+    console.log('props: ', props.transfer);
 
+    // TODO update balance
+    // if (props.transfer.needShowData === true) {
+    //   this.props.updateBalance();
+    //   // this.props.dispatch(async.reset(async.methodList.event.add));
+    // }
   };
 
   componentWillMount() {
@@ -24,8 +25,7 @@ class AccountInfo extends Component {
   };
 
   render() {
-    // const { error } = accountInfo;
-
+    const { transfer: { error } } = this.props;
 
     return (
       <TransferContainer>
@@ -37,7 +37,7 @@ class AccountInfo extends Component {
           <Form
             handleSubmit={this.handleConfirm}
             onLoadFile={this.handleLoadFile}
-            // asyncError={error}
+            asyncError={error}
           />
         </CardHeader>
       </TransferContainer>
@@ -53,14 +53,12 @@ class AccountInfo extends Component {
       dest: values.addressTo,
       amount: parseFloat(values.amount),
       commission: parseFloat(values.commission),
+      data: values.message,
     });
   }
 };
 
 const mapStateToProps = function (state) {
-  console.log('async.methodList: ', async.methodList);
-  console.log('getStoreState: ', async.getStoreState(state, async.methodList.event.add));
-  
   return {
     transfer: async.getStoreState(state, async.methodList.event.add),
     form: state.form['transfer'],
@@ -75,6 +73,9 @@ const mapDispatchToProps = (dispatch) => {
         ...params,
         type: 0,
       }));
+    },
+    updateBalance: (params) => {
+      dispatch(async.load(async.methodList.account.getInfo));
     },
     setError: (error) => {
       dispatch(async.actions.fail({

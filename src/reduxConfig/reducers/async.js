@@ -29,4 +29,7 @@ export default handleActions({
   [actionTypes.async.fail]: (state, action) => (
     getNewState(state, action, prepareStateFail)
   ),
+  [actionTypes.async.reset]: (state, action) => (
+    getNewState(state, action, new AsyncState())
+  ),
 }, initialState);

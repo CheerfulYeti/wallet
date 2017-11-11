@@ -20,6 +20,12 @@ const actions = {
   fail: createAction(actionTypes.async.fail),
 };
 
+export const reset = (method) => (dispatch) => {
+  dispatch(actions.reset({
+    method,
+  }));
+};
+
 export const load = (method, params) => (dispatch) => {
   dispatch(actions.request({
     method,
