@@ -15,4 +15,11 @@ export default {
       path: 'account/info/{accountHash}',
     },
   },
+  event: {
+    add: {
+      useStub: false,
+      method: method.post,
+      path: 'event/post',
+    }
+  },
 };

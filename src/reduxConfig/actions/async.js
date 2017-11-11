@@ -9,6 +9,9 @@ export const methodList = {
     register: 'account.register',
     getInfo: 'account.getInfo',
   },
+  event: {
+    add: 'event.add',
+  },
 };
 
 const actions = {

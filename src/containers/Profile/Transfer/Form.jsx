@@ -53,5 +53,5 @@ const Form = (props) => {
 };
 
 export default  reduxForm({
-  form: 'auth' // a unique identifier for this form
+  form: 'transfer' // a unique identifier for this form
 })(Form)
