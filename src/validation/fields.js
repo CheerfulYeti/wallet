@@ -29,8 +29,9 @@ export const phoneNumber = value =>
     ? 'Invalid phone number, must be 10 digits'
     : undefined;
 
-export const minValue18 = minValue(18);
 export const minLength2 = minLength(2);
+export const minValue18 = minValue(18);
 export const minLength64 = minLength(64);
+
 export const maxLength15 = maxLength(15);
 

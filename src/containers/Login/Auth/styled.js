@@ -1,21 +1,14 @@
+import styled from 'styled-components';
+import RaisedButton from 'material-ui/RaisedButton';
 
-
-/*import styled from 'styled-components';
-import { Field } from 'redux-form';
-
-export const RegForm = styled.form`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  flex-direction: column;
-
-  margin: 0 auto;
+export const RaisedButtonStyled = styled(RaisedButton)`
 `;
 
-export const FieldStyled = styled(Field)`
-  margin-bottom: 30px;
+export const FileInputStyled = styled.input`
+  display: none;
 `;
-*/
 
+export const FileNameStyled = styled.div`
+
+`;
 
