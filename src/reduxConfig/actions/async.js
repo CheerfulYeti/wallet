@@ -9,42 +9,29 @@ export const methodList = {
 };
 
 const async = {
-  request: createAction(actionTypes.async.request, (method, data) => {
-    return Promise.resolve({
-      payload: {
-        method,
-        data,
-      }
-    });
-  }),
-  success: createAction(actionTypes.async.success, (method, data) => {
-    return Promise.resolve({
-      payload: {
-        method,
-        data,
-      }
-    });
-  }),
-  fail: createAction(actionTypes.async.fail, (method, data) => {
-    return Promise.resolve({
-      payload: {
-        method,
-        data,
-      }
-    });
-  }),
+  request: createAction(actionTypes.async.request),
+  success: createAction(actionTypes.async.success),
+  fail: createAction(actionTypes.async.fail),
 };
 
 export const load = (method, params) => (dispatch) => {
-  dispatch(async.request(method, params));
+  dispatch(async.request({
+    method,
+    data: params,
+  }));
   
   api(method, params)
     .then(response => {
-      console.log("point-1510393588808", response);
-      dispatch(async.success(method, JSON.parse(response.responseData)));
+      dispatch(async.success({
+        method,
+        data: response,
+      }));
     })
     .catch(error => {
-      dispatch(async.fail(method, error));
+      dispatch(async.fail({
+        method,
+        data: error,
+      }));
       
     });
 };

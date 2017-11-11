@@ -13,8 +13,9 @@ const initialState = immutable.from({});
 
 export default handleActions({
   [actionTypes.async.request]: (state, action) => {
+    console.log("point-1510396493644", action.payload);
     const { method, data } = action.payload;
-    const asyncState = state.async[method] ? state.async[method] : new AsyncState();
+    const asyncState = state[method] ? state[method] : new AsyncState();
     return immutable.merge(state, {
       [method]: prepareStateRequest(asyncState, data),
     }, { deep: true, });
@@ -22,13 +23,13 @@ export default handleActions({
   [actionTypes.async.success]: (state, action) => {
     const { method, data } = action.payload;
     return immutable.merge(state, {
-      [method]: prepareStateSuccess(state.async[method], data),
+      [method]: prepareStateSuccess(state[method], data),
     }, { deep: true, });
   },
   [actionTypes.async.fail]: (state, action) => {
     const { method, data } = action.payload;
     return immutable.merge(state, {
-      [method]: prepareStateFail(state.async[method], data),
+      [method]: prepareStateFail(state[method], data),
     }, { deep: true, });
   },
 }, initialState);
