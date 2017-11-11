@@ -93,7 +93,7 @@ class Registration extends Component {
         data.publicHash = sha256(data.publicKey.n);
         this.props.setKeys(data);
         this.props.loadAccountInfo({
-          hash: data.publicHash,
+          accountHash: data.publicHash,
         });
         console.log("point-1510242125263", 'load success, user logged in');
       });

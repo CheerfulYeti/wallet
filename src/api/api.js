@@ -6,6 +6,19 @@ import resources from './resources';
 const apiAlias = 'localhost';
 
 const errorMiddleware = () => ({
+  request(request) {
+    let headers = {};
+    if (request.publicKey) {
+      headers['X-Public-Key'] = request.publicKey;
+      delete request.publicKey;
+    }
+    
+    return request.enhance({
+      headers,
+      body: request,
+    })
+  },
+  
   response(next) {
     return next().then((response) => {
       let data = {};
@@ -30,13 +43,5 @@ const client = forge({
 });
 
 export default function (resource, params) {
-  let headers = {};
-  if (params.publicKey) {
-    headers['X-Public-Key'] = params.publicKey;
-    delete params.publicKey;
-  }
-  return get(client, resource)({
-    headers,
-    body: params,
-  });
+  return get(client, resource)(params);
 }

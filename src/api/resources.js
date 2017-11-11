@@ -11,7 +11,7 @@ export default {
     },
     getInfo: {
       method: method.get,
-      path: 'account/info/{hash}',
+      path: 'account/info/{accountHash}',
     },
   },
 };
