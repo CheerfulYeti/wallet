@@ -74,7 +74,7 @@ class Registration extends Component {
     const data = this.keyFileContent;
     try {
       data.privateKey = decrypt(data.privateKey, password);
-      getImportedKeys(data).then(() => {
+      getImportedKeys(data.privateKey).then(() => {
         data.publicHash = sha256(data.publicKey);
         this.props.setKeys(data);
         this.props.loadAccountInfo({
