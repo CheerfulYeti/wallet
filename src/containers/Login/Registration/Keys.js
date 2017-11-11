@@ -4,7 +4,7 @@ import { generateKey, getExportedKeys, encrypt } from 'helpers/crypro';
 
 import store from 'reduxConfig/store';
 import { setIsFileGenerated } from 'reduxConfig/actions/keys';
-import { accountRegister } from 'reduxConfig/actions/user';
+import { load, methodList } from 'reduxConfig/actions/async';
 
 export default function generateKeyFile(password) {
   generateKey().then(keys => {
@@ -17,9 +17,9 @@ export default function generateKeyFile(password) {
         date: new Date().getTime(),
       };
       
-      // saveToFile(defaultKeysFileName, data);
+      saveToFile(defaultKeysFileName, data);
       store.dispatch(setIsFileGenerated(true));
-      store.dispatch(accountRegister({
+      store.dispatch(load(methodList.account.register, {
         publicKey: publicKey.n,
       }));
     });

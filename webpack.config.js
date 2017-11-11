@@ -13,6 +13,14 @@ const plugins = [
   }),
 ];
 
+// process.stdin.resume(); // so the program will not close instantly
+
+// catches ctrl+c event
+process.on('SIGINT', () => {
+  console.log('Ctrl-C...');
+  process.exit(1);
+});
+
 module.exports = {
   entry: `${pathList.src}/index.jsx`,
   output: {

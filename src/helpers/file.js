@@ -4,7 +4,6 @@ import { guId } from 'helpers/common';
 export const saveToFile = (fileName, data) => {
   let blob = new Blob([JSON.stringify(data)], { type: "text/plain;charset=utf-8" });
   FileSaver.saveAs(blob, fileName);
-  console.log("point-1510392583360", FileSaver);
 };
 
 

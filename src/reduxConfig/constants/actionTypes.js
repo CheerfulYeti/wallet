@@ -17,6 +17,9 @@ export default {
   },
   
   async: {
+    request: 'ASYNC/REQUEST',
+    success: 'ASYNC/SUCCESS',
+    fail: 'ASYNC/FAIL',
     account: {
       register: {
         request: 'ASYNC_ACCOUNT_REGISTER_REQUEST',
