@@ -1,4 +1,4 @@
-const method = {
+export const method = {
   post: 'post',
   get: 'get',
 };

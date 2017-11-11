@@ -1,59 +1,20 @@
 import CryptoJS from 'crypto-js';
 import CryptoSHA256  from 'crypto-js/sha256';
-import { algo, hashName } from 'config/app';
-import { string2Bin } from './common';
+import NodeRSA from 'node-rsa';
 
 export async function generateKey() {
   try {
-    return await window.crypto.subtle.generateKey(
-      {
-        name: algo,
-        modulusLength: 2048, //can be 1024, 2048, or 4096
-        publicExponent: new Uint8Array([
-          0x01,
-          0x00,
-          0x01
-        ]),
-        hash: { name: hashName }, //can be "SHA-1", "SHA-256", "SHA-384", or "SHA-512"
-      },
-      true, //whether the key is extractable (i.e. can be used in exportKey)
-      [
-        "sign",
-        "verify"
-      ] //can be any combination of "sign" and "verify"
-    );
-  }
-  catch (e) {
+    let key = new NodeRSA({ b: 64 });
+    return await key.generateKeyPair();
+  } catch(e) {
     throw e;
   }
 }
 
-export async function exportKeys(key) {
+export async function exportKeys(key, isPrivate = false) {
   try {
-    return await window.crypto.subtle.exportKey(
-      "jwk", //can be "jwk" (public or private), "spki" (public only), or "pkcs8" (private only)
-      key, //can be a publicKey or privateKey, as long as extractable was true
-    );
-  }
-  catch (e) {
-    throw e;
-  }
-}
-
-export async function importKeys(key, isPrivate = false) {
-  try {
-    return await window.crypto.subtle.importKey(
-      "jwk", //can be "jwk" (public or private), "spki" (public only), or "pkcs8" (private only)
-      key,
-      {   //these are the algorithm options
-        name: algo,
-        hash: { name: hashName }, //can be "SHA-1", "SHA-256", "SHA-384", or "SHA-512"
-      },
-      true, //whether the key is extractable (i.e. can be used in exportKey)
-      [
-        isPrivate ? "sign" : "verify"
-      ] //"verify" for public key import, "sign" for private key imports
-    );
+    const type = `pkcs8-${isPrivate ? 'private' : 'public'}-pem`;
+    return key.exportKey(type);
   }
   catch (e) {
     throw e;
@@ -63,8 +24,8 @@ export async function importKeys(key, isPrivate = false) {
 export async function getExportedKeys(keys) {
   try {
     return await Promise.all([
-      exportKeys(keys.publicKey),
-      exportKeys(keys.privateKey)
+      exportKeys(keys),
+      exportKeys(keys, true)
     ]);
   }
   catch (e) {
@@ -72,46 +33,61 @@ export async function getExportedKeys(keys) {
   }
 }
 
-export async function getImportedKeys(keys) {
+export async function getImportedKeys(privateKey) {
   try {
-    return await Promise.all([
-      importKeys(keys.publicKey),
-      importKeys(keys.privateKey, true)
-    ]);
+    return await new NodeRSA(privateKey);
   }
   catch (e) {
   }
 }
 
-export async function sign(privateKey, data) {
+const flattenData = (data) => {
+  let result = '';
+  Object.keys(data)
+    .sort()
+    .forEach((key) => {
+    let value = data[key];
+    if (typeof data[key] === 'object') {
+      value = flattenData(data[key]);
+    }
+    result += `${key}` + `${value}`;
+  });
+  return result;
+};
+
+// console.log(flattenData({
+//   b: 'A',
+//   a: {
+//     d: 'B',
+//     c: [
+//       'C',
+//       'D',
+//     ],
+//   },
+//   'A': 'F',
+//   '1a': 'E',
+// }));
+
+export async function sign(key, data) {
+  data = flattenData(data);
+  
   try {
-    return await window.crypto.subtle.sign(
-      {
-        name: algo,
-        saltLength: 128, //the length of the salt
-      },
-      privateKey, //from generateKey or importKey above
-      data //ArrayBuffer of data you want to sign
-    );
-  }
-  catch (err) {
-    console.error(err);
+    return await key.sign(data, 'base64', 'utf8');
+  } catch(e) {
+    console.log("%cP-1510416081503", 'background: #222; color: #bada55', err);
+    throw e;
   }
 }
 
-export async function verify(publicKey, signature, data) {
+export async function verify(key, signature, data) {
+  data = flattenData(data);
+  
   try {
-    return await window.crypto.subtle.verify(
-      {
-        name: algo,
-        saltLength: 128, //the length of the salt
-      },
-      publicKey, //from generateKey or importKey above
-      signature, //ArrayBuffer of the signature
-      data //ArrayBuffer of the data
-    );
+    return await key.verify(data, signature, 'utf8', 'base64');
   }
   catch (err) {
+    console.log("%cP-1510416081503", 'background: #222; color: #bada55', err);
+    throw err;
   }
 }
 
@@ -127,9 +103,39 @@ export const decrypt = (text, password) => {
 
 export const sha256 = (str) => {
   const bytes = CryptoSHA256(str);
-  return bytes.toString(CryptoJS.enc.Hex);;
+  return bytes.toString(CryptoJS.enc.Hex);
 };
 
-// const enc = encrypt("test", "123");
-// console.log("point-1510171533372", enc);
-// console.log("point-1510171539532", decrypt(enc, "123"));
+export const base64Encode = (str) => {
+  const b = new Buffer(str);
+// If we don't use toString(), JavaScript assumes we want to convert the object to utf8.
+// We can make it convert to other formats by passing the encoding type to toString().
+  const s = b.toString('base64');
+  return s;
+};
+
+export const base64Decode = (str) => {
+  const b = new Buffer(str, 'base64');
+  const s = b.toString();
+  return s;
+};
+
+export function arrayBufferToBase64( buffer ) {
+  let binary = '';
+  let bytes = new Uint8Array( buffer );
+  let len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+    binary += String.fromCharCode( bytes[ i ] );
+  }
+  return window.btoa( binary );
+}
+
+export function base64ToArrayBuffer(base64) {
+  let binary_string =  window.atob(base64);
+  let len = binary_string.length;
+  let bytes = new Uint8Array( len );
+  for (let i = 0; i < len; i++)        {
+    bytes[i] = binary_string.charCodeAt(i);
+  }
+  return bytes.buffer;
+}

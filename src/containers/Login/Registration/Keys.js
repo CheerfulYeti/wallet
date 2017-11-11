@@ -1,6 +1,6 @@
 import { defaultKeysFileName } from 'config/app';
 import { saveToFile } from 'helpers/file';
-import { generateKey, getExportedKeys, encrypt } from 'helpers/crypto';
+import { generateKey, getExportedKeys, encrypt, sign, verify, arrayBufferToBase64, base64ToArrayBuffer } from 'helpers/crypto';
 
 import store from 'reduxConfig/store';
 import { setIsFileGenerated } from 'reduxConfig/actions/keys';
@@ -16,10 +16,21 @@ export default function generateKeyFile(password) {
         date: new Date().getTime(),
       };
       saveToFile(defaultKeysFileName, data);
-      store.dispatch(setIsFileGenerated(true));
-      store.dispatch(load(methodList.account.register, {
-        publicKey: publicKey.n,
-      }));
+  
+      const request = {
+        timestamp: new Date().getTime(),
+      };
+      sign(keys, request).then(signature => {
+        // verify(keys, signature, request).then(data => {
+        //   console.log("point-1510086180508 verify result", data);
+        // });
+  
+        request.signature = signature;
+        request.publicKey = publicKey;
+        store.dispatch(load(methodList.account.register, request));
+        store.dispatch(setIsFileGenerated(true));
+      });
+      
     });
   });
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import BaseContainer from 'components/BaseContainer';
 import { loadFromFile } from 'helpers/file';
-import { getImportedKeys, sha256, decrypt } from 'helpers/crypto';
+import { getImportedKeys, sha256, decrypt, getExportedKeys } from 'helpers/crypto';
 import { setKeys } from 'reduxConfig/actions/user';
 import async from 'reduxConfig/actions/async';
 import AsyncBlock from 'components/AsyncBlock';
@@ -75,7 +75,7 @@ class Registration extends Component {
     try {
       data.privateKey = decrypt(data.privateKey, password);
       getImportedKeys(data).then(() => {
-        data.publicHash = sha256(data.publicKey.n);
+        data.publicHash = sha256(data.publicKey);
         this.props.setKeys(data);
         this.props.loadAccountInfo({
           accountHash: data.publicHash,

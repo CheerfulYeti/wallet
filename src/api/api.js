@@ -1,7 +1,8 @@
 import forge from 'mappersmith';
 import config from './config';
 import get from 'lodash/get';
-import resources from './resources';
+import resources, { method } from './resources';
+import { base64Encode } from 'helpers/crypto';
 
 const apiAlias = 'localhost';
 
@@ -32,16 +33,30 @@ const prepareResources = function(resources) {
   return result;
 };
 
-const dataMiddleware = () => ({
+const dataMiddleware = ({ resourceName, resourceMethod }) => ({
   request(request) {
-    let headers = {};
-    if (request.requestParams.publicKey) {
-      headers['X-Public-Key'] = request.requestParams.publicKey;
-      delete request.requestParams.publicKey;
+    const config = resources[resourceName][resourceMethod];
+    if (request.requestParams && config && config.method === method.post) {
+      let headers = request.headers();
+      headers['Content-Type'] = 'application/json';
+      if (request.requestParams.publicKey) {
+        let publicKey = request.requestParams.publicKey;
+        publicKey = base64Encode(publicKey);
+        headers['X-Public-Key'] = publicKey;
+        delete request.requestParams.publicKey;
+      }
+      if (request.requestParams.signature) {
+        headers['X-Signature'] = request.requestParams.signature;
+        delete request.requestParams.signature;
+      }
+      const content = JSON.stringify(request.requestParams);
+      request.requestParams = {
+        headers,
+        body: content,
+      };
+      return request;
     }
-    return request.enhance({
-      headers,
-    });
+    return request;
   },
   
   response(next) {
@@ -85,7 +100,7 @@ const stubClient = forge({
 
 export default function (resource, params) {
   const resourceConfig = get(resources, resource);
-
+  
   return get(
     (resourceConfig.useStub) ? stubClient : client,
     resource
