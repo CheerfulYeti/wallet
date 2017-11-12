@@ -22,7 +22,6 @@ export default {
       path: 'event/add',
       getRequest: (params) => {
         return {
-          source: params.source,
           commission: params.commission,
           type: params.type,
           amount: params.amount,
