@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import { List, ListItem } from 'material-ui/List';
-import Avatar from 'material-ui/Avatar';
-import FileFolder from 'material-ui/svg-icons/file/folder';
-import ActionInfo from 'material-ui/svg-icons/action/info';
-
-import store from 'reduxConfig/store';
-// import Actions from 'reduxConfig/actions/`Profile`Actions';
+import FactListAccepted from 'containers/Fact/FactList/FactListAccepted';
+import FactListUnAccepted from 'containers/Fact/FactList/FactListUnAccepted';
 
 import FactAdd from 'containers/Fact/FactAdd';
 import AccountInfo from './AccountInfo';
@@ -14,10 +9,8 @@ import Transfer from './Transfer';
 import { Container } from './styled';
 import { Tabs, Tab } from 'material-ui/Tabs';
 
-const mapStateToProps = function (state) {
+const mapStateToProps = function () {
   return {
-    // REPLACE
-    // data: state.$ComponentName.data,
   };
 };
 
@@ -44,8 +37,7 @@ class Profile extends Component {
       </Container>
     )
   };
-};
-
+}
 
 const TabsComponent = (props) => (
   <Tabs>
@@ -55,6 +47,10 @@ const TabsComponent = (props) => (
     </Tab>
     <Tab label="Add fact" >
       <FactAdd history={props.history}/>
+    </Tab>
+    <Tab label="FactList" >
+      <FactListUnAccepted history={props.history}/>
+      <FactListAccepted history={props.history}/>
     </Tab>
   </Tabs>
 );

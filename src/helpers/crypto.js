@@ -103,22 +103,19 @@ export const decrypt = (text, password) => {
 };
 
 export const sha256 = (str) => {
+  console.log('%cP-1510486676688', 'background: #222; color: #bada55', str);
   const bytes = CryptoSHA256(str);
   return bytes.toString(CryptoJS.enc.Hex);
 };
 
 export const base64Encode = (str) => {
   const b = new Buffer(str);
-// If we don't use toString(), JavaScript assumes we want to convert the object to utf8.
-// We can make it convert to other formats by passing the encoding type to toString().
-  const s = b.toString('base64');
-  return s;
+  return b.toString('base64');
 };
 
 export const base64Decode = (str) => {
   const b = new Buffer(str, 'base64');
-  const s = b.toString();
-  return s;
+  return b.toString();
 };
 
 export function arrayBufferToBase64( buffer ) {

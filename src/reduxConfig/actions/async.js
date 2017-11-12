@@ -92,6 +92,7 @@ function makePOSTRequest(resource, params, dispatch) {
   if (!publicKey) {
     publicKey = getKeysFromState().publicKey;
   }
+  console.log('%cP-1510486485154', 'background: #222; color: #bada55', publicKey);
   headers['X-Public-Key'] = base64Encode(publicKey);
 
   if (!privateKey) {

@@ -40,7 +40,15 @@ const methodList = {
           datetime: params.datetime,
         };
       }
-    }
+    },
+    getUnacceptedList: {
+      method: method.get,
+      path: 'event/mempool/type/{type}',
+    },
+    getAcceptedList: {
+      method: method.get,
+      path: 'event/history',
+    },
   },
 };
 

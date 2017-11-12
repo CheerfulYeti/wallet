@@ -12,5 +12,7 @@ export default () => (
     <Route exact strict={false} path={routeList.test} component={componentList.test} />
     <Route exact strict={false} path={routeList.profile} component={componentList.profile} />
     <Route exact strict={false} path={routeList.factAdd} component={componentList.factAdd} />
+    <Route exact strict={false} path={routeList.factListAccepted} component={componentList.factListAccepted} />
+      <Route exact strict={false} path={routeList.factListUnAccepted} component={componentList.factListUnAccepted} />
   </Switch>
 );
