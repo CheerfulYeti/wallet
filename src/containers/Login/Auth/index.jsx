@@ -10,7 +10,7 @@ import Form from './Form';
 
 import { ContainerStyled } from './styled';
 
-class Registration extends Component {
+class Auth extends Component {
   constructor(props) {
     super(props);
     
@@ -115,4 +115,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Registration);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
