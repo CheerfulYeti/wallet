@@ -23,16 +23,22 @@ const actions = {
 // };
 
 export const load = (resource, params) => (dispatch) => {
-  dispatch(actions.request({
-    method: resource,
-    data: params,
-  }));
-  
   const resourceConfig = get(resources, resource);
-  if (resourceConfig && resourceConfig.method === method.post) {
-    makePOSTRequest(resource, params, dispatch);
-  } else {
-    makeRequest(resource, params, dispatch);
+  if (resourceConfig) {
+    dispatch(actions.request({
+      method: resource,
+      data: params,
+    }));
+    
+    const requestParams = (resourceConfig.getRequest)
+      ? resourceConfig.getRequest(params)
+      : params;
+  
+    if (resourceConfig.method === method.post) {
+      makePOSTRequest(resource, requestParams, dispatch);
+    } else {
+      makeRequest(resource, requestParams, dispatch);
+    }
   }
 };
 

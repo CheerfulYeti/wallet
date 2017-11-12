@@ -44,13 +44,8 @@ const dataMiddleware = ({ resourceName, resourceMethod }) => ({
         };
         delete request.requestParams.postHeaders;
       }
-  
-  
-      const requestParams = (resourceConfig.getRequest)
-        ? resourceConfig.getRequest(request.requestParams)
-        : request.requestParams;
       
-      const content = JSON.stringify(requestParams);
+      const content = JSON.stringify(request.requestParams);
       request.requestParams = {
         headers,
         body: content,
@@ -72,7 +67,7 @@ const dataMiddleware = ({ resourceName, resourceMethod }) => ({
           message: data.message ? data.message : 'Произошла непредвиденная ошибка',
         };
       }
-      return data;
+      return data.data === undefined ? null : data.data;
     });
   },
 });
