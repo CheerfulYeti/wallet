@@ -5,6 +5,7 @@ import SaveDataToFile from './SaveDataToFile';
 import GenerateKeys from './GenerateKeys';
 import ImportKeys from './ImportKeys';
 import Keys from './Keys';
+import Fact from 'components/Fact';
 import styled from 'styled-components';
 
 const list = {
@@ -13,6 +14,7 @@ const list = {
   GenerateKeys,
   ImportKeys,
   Keys,
+  Fact,
 };
 
 export const GoBack = styled.div`

@@ -37,7 +37,7 @@ const methodList = {
           amount: params.amount,
           dest: params.dest,
           data: prepareData(params),
-          datetime: params.datetime,
+          datetime: Date.now(),
         };
       }
     },
@@ -48,6 +48,21 @@ const methodList = {
     getAcceptedList: {
       method: method.get,
       path: 'event/approved/{type}',
+    },
+    vote: {
+      useStub: false,
+      method: method.post,
+      path: 'event/vote',
+      getRequest: (params) => {
+        return {
+          vote: Boolean(params.vote),
+          voteEventSighash: params.voteEventSighash,
+          commission: params.commission,
+          amount: 0,
+          type: params.type,
+          datetime: Date.now(),
+        };
+      }
     },
   },
 };
