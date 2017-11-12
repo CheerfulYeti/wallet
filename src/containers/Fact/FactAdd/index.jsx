@@ -22,6 +22,9 @@ class FactAdd extends Component {
   };
 
   render() {
+    const { addFactState } = this.props;
+    console.log('addFact state: ', addFactState);
+
     return (
       <Container>
         <Form
@@ -47,7 +50,7 @@ class FactAdd extends Component {
 
 const mapStateToProps = function (state) {
   return {
-    addFact: async.getStoreState(state, async.methodList.event.add.alias),
+    addFactState: async.getStoreState(state, async.methodList.event.add.alias),
     form: state.form['addFact'],
   };
 };
