@@ -34,6 +34,7 @@ const prepareResources = function(resources) {
 
 const dataMiddleware = ({ resourceName, resourceMethod }) => ({
   request(request) {
+    console.log('request: ', request);
     const resourceConfig = resources[resourceName][resourceMethod];
     if (request.requestParams && resourceConfig && resourceConfig.method === method.post) {
       let headers = request.headers();

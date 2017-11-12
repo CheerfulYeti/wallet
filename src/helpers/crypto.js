@@ -70,6 +70,7 @@ const flattenData = (data) => {
 
 export async function sign(key, data) {
   data = flattenData(data);
+  console.log('data: ', data);
   
   try {
     return await key.sign(data, 'base64', 'utf8');

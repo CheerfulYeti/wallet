@@ -33,7 +33,16 @@ const Form = (props) => {
         fullWidth={true}
         floatingLabelText="Content"
         type="text"
+        required
         multiLine
+      /><br />
+      <Field
+        name="commission"
+        validate={[required, positiveNumber]}
+        component={TextField}
+        fullWidth={true}
+        floatingLabelText="Commission"
+        type="number"
       /><br />
       {
         (asyncError && asyncError.message)
@@ -52,5 +61,5 @@ const Form = (props) => {
 };
 
 export default  reduxForm({
-  form: 'transfer' // a unique identifier for this form
+  form: 'addFact' // a unique identifier for this form
 })(Form)

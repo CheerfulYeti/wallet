@@ -6,5 +6,5 @@ export default {
   transfer: '/transfer',
   test: '/test',
   profile: '/profile',
-  factAdd: 'fact/add',
+  factAdd: '/fact/add',
 }
