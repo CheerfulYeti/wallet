@@ -101,9 +101,12 @@ const stubClient = forge({
 
 export default function (resource, params) {
   const resourceConfig = get(resources, resource);
-  
+  const resultParams = (resourceConfig.getRequest)
+    ? resourceConfig.getRequest(params)
+    : params;
+
   return get(
     (resourceConfig.useStub) ? stubClient : client,
     resource
-  )(params);
+  )(resultParams);
 }

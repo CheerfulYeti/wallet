@@ -17,9 +17,20 @@ export default {
   },
   event: {
     add: {
-      useStub: true,
+      useStub: false,
       method: method.post,
       path: 'event/add',
+      getRequest: (params) => {
+        return {
+          source: params.source,
+          commission: params.commission,
+          type: params.type,
+          amount: params.amount,
+          dest: params.dest,
+          data: params.data,
+          datetime: params.datetime,
+        };
+      }
     }
   },
 };
