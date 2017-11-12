@@ -11,15 +11,11 @@ class AccountInfo extends Component {
   }
   
   render() {
-    console.log('AccountInfo props: ', this.props);
+    const { accountInfo: info, publicHash = '', } = this.props;
+    const accountInfo = info === null ? {} : info;
     const {
-      accountInfo: {
-        data: {
-          amount = 0,
-        } = {}
-      } = {},
-      publicHash = '',
-    } = this.props;
+      amount = 0,
+    } = accountInfo;
     
     return (
       <AccountInfoContainer>
