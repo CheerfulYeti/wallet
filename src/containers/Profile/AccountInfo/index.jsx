@@ -39,7 +39,7 @@ class AccountInfo extends Component {
       if (!this.props.accountInfo.needShowError) {
         this.load();
       }
-    }, 5000);
+    }, 50000);
   }
 }
 

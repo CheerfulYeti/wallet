@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import async from 'reduxConfig/actions/async';
-import AsyncBlock from 'components/AsyncBlock';
+import Fact from 'components/Fact';
 import appConstants from 'constants/app';
 import { sha256 } from 'helpers/crypto';
 import { facts } from 'constants/texts';
@@ -29,7 +29,7 @@ export class FactListAccepted extends Component {
       if (!this.props.listState.needShowError) {
         this.load();
       }
-    }, 2000);
+    }, 3000);
   };
   
   componentWillReceiveProps(props) {
@@ -42,22 +42,22 @@ export class FactListAccepted extends Component {
     const newList = [];
     if (!Array.isArray(list)) {
       list = [
-        {
-          signature: "grr",
-          data: {
-            title: 'fact 1',
-            content: 'content 1',
-            votes: 0,
-          }
-        },
-        {
-          signature: "Dwdw",
-          data: {
-            title: 'fact 2',
-            content: 'content 2',
-            votes: 99,
-          }
-        },
+        // {
+        //   signature: "grr",
+        //   data: {
+        //     title: 'fact 1',
+        //     content: 'content 1',
+        //     votes: 0,
+        //   }
+        // },
+        // {
+        //   signature: "Dwdw",
+        //   data: {
+        //     title: 'fact 2',
+        //     content: 'content 2',
+        //     votes: 99,
+        //   }
+        // },
       ];
     }
   
@@ -94,7 +94,7 @@ export class FactListAccepted extends Component {
   renderItem = (item, key) => {
     return (
       <ItemContainerStyled key={item.sighash}>
-        {item.data.title} {FactListAccepted.renderAddVote(item, key)}
+        <Fact title={item.data.title} content={item.data.content} hash={item.sighash} />
       </ItemContainerStyled>
     );
   };
