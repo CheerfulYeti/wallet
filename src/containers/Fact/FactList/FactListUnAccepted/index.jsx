@@ -19,7 +19,7 @@ function getApiRequest() {
 const mapStateToProps = function (state) {
   const apiObject = getApiRequest();
   return {
-    acceptedList: async.getStoreState(state, apiObject.alias),
+    listState: async.getStoreState(state, apiObject.alias),
   };
 };
 

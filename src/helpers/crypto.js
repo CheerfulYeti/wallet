@@ -50,23 +50,12 @@ const flattenData = (data) => {
     if (typeof data[key] === 'object') {
       value = flattenData(data[key]);
     }
-    result += `${key}` + `${value}`;
+    if (value !== undefined) {
+      result += `${key}` + `${value}`;
+    }
   });
   return result;
 };
-
-// console.log(flattenData({
-//   b: 'A',
-//   a: {
-//     d: 'B',
-//     c: [
-//       'C',
-//       'D',
-//     ],
-//   },
-//   'A': 'F',
-//   '1a': 'E',
-// }));
 
 export async function sign(key, data) {
   data = flattenData(data);
@@ -103,7 +92,6 @@ export const decrypt = (text, password) => {
 };
 
 export const sha256 = (str) => {
-  console.log('%cP-1510486676688', 'background: #222; color: #bada55', str);
   const bytes = CryptoSHA256(str);
   return bytes.toString(CryptoJS.enc.Hex);
 };

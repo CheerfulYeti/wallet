@@ -7,7 +7,6 @@ import { AccountInfoContainer, List, ListItem, Label, Value } from './styled';
 
 class AccountInfo extends Component {
   componentWillMount() {
-    console.log('%cP-1510491905952', 'background: #222; color: #bada55', '!!');
     this.load();
   }
   
@@ -41,8 +40,10 @@ class AccountInfo extends Component {
   load = () => {
     this.props.loadAccountInfo();
     setTimeout(() => {
-      // this.load();
-    }, 1000);
+      if (!this.props.accountInfo.needShowError) {
+        // this.load();
+      }
+    }, 5000);
   }
 }
 
@@ -57,7 +58,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     loadAccountInfo: () => {
       const state = store.getState();
-      console.log('%cP-1510491692436', 'background: #222; color: #bada55', state);
       dispatch(async.load(async.methodList.account.getInfo.alias, {
         accountHash: state.user.publicHash,
       }));

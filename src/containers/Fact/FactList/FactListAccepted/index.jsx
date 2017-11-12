@@ -25,8 +25,10 @@ export class FactListAccepted extends Component {
   load = () => {
     this.props.load();
     setTimeout(() => {
-      // this.load();
-    }, 1000);
+      if (!this.props.listState.needShowError) {
+        // this.load();
+      }
+    }, 3000);
   };
   
   componentWillReceiveProps(props) {
@@ -34,45 +36,32 @@ export class FactListAccepted extends Component {
   };
   
   render() {
-    const { acceptedList } = this.props;
+    const { listState } = this.props;
+    let list = listState.data;
+    if (!Array.isArray(list)) {
+      list = [
+        {
+          title: 'fact 1',
+          content: 'content 1',
+          votes: 0,
+        },
+        {
+          title: 'fact 2',
+          content: 'content 2',
+          votes: 99,
+        },
+      ];
+    }
     return (
-      <AsyncBlock
-        asyncState={acceptedList}
-        renderData={() => {
-          let list = acceptedList.data;
-          if (!Array.isArray(list)) {
-            list = [
-              {
-                title: 'fact 1',
-                content: 'content 1',
-                votes: 0,
-              },
-              {
-                title: 'fact 2',
-                content: 'content 2',
-                votes: 99,
-              },
-            ];
-          }
-          return (
-            <Container>
-              {
-                list.length > 0
-                  ? this.renderList(list)
-                  : this.renderEmptyList()
-              }
-            </Container>
-          );
-        }}
-        renderError={() => (
-          <Container>
-            {acceptedList.error.message}
-          </Container>
-        )}
-      >
+      <Container>
         <TitleStyled>{this.renderTitle()}</TitleStyled>
-      </AsyncBlock>
-    )
+        {
+          list.length > 0
+            ? this.renderList(list)
+            : this.renderEmptyList()
+        }
+      </Container>
+    );
   };
   
   renderTitle() {
@@ -84,8 +73,7 @@ export class FactListAccepted extends Component {
   };
   
   renderList = (list) => {
-    const r =  list.map((item, key) => this.renderItem(item, key));
-    return r;
+    return  list.map((item, key) => this.renderItem(item, key));
   };
   
   renderItem = (item, key) => {
@@ -99,6 +87,10 @@ export class FactListAccepted extends Component {
   static renderAddVote(item, key) {
     return null;
   }
+  
+  getApiList() {
+    return async.methodList.event.getAcceptedList;
+  }
 }
 
 function getApiRequest() {
@@ -108,7 +100,7 @@ function getApiRequest() {
 const mapStateToProps = function (state) {
   const apiObject = getApiRequest();
   return {
-    acceptedList: async.getStoreState(state, apiObject.alias),
+    listState: async.getStoreState(state, apiObject.alias),
   };
 };
 
