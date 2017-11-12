@@ -26,13 +26,13 @@ const actions = {
 
 export const reset = (resource) => (dispatch) => {
   dispatch(actions.reset({
-    resource,
+    method: resource,
   }));
 };
 
 export const load = (resource, params) => (dispatch) => {
   dispatch(actions.request({
-    resource,
+    method: resource,
     data: params,
   }));
   
@@ -48,7 +48,7 @@ function makeRequest(resource, params, dispatch) {
   api(resource, params)
     .then(response => {
       dispatch(actions.success({
-        resource,
+        method: resource,
         data: response,
       }));
     })
@@ -65,7 +65,7 @@ function makeRequest(resource, params, dispatch) {
         message = data.error.message;
       }
       dispatch(actions.fail({
-        resource,
+        method: resource,
         data: {
           message,
           code,
