@@ -37,7 +37,7 @@ class AccountInfo extends Component {
     this.props.loadAccountInfo();
     setTimeout(() => {
       if (!this.props.accountInfo.needShowError) {
-        // this.load();
+        this.load();
       }
     }, 5000);
   }

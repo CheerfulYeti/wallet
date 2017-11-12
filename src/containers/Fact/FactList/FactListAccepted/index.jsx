@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import async from 'reduxConfig/actions/async';
 import AsyncBlock from 'components/AsyncBlock';
 import appConstants from 'constants/app';
+import { sha256 } from 'helpers/crypto';
 import { facts } from 'constants/texts';
 
 import { Container, TitleStyled, ItemContainerStyled } from './styled';
@@ -26,9 +27,9 @@ export class FactListAccepted extends Component {
     this.props.load();
     setTimeout(() => {
       if (!this.props.listState.needShowError) {
-        // this.load();
+        this.load();
       }
-    }, 3000);
+    }, 2000);
   };
   
   componentWillReceiveProps(props) {
@@ -38,26 +39,40 @@ export class FactListAccepted extends Component {
   render() {
     const { listState } = this.props;
     let list = listState.data;
+    const newList = [];
     if (!Array.isArray(list)) {
       list = [
         {
-          title: 'fact 1',
-          content: 'content 1',
-          votes: 0,
+          signature: "grr",
+          data: {
+            title: 'fact 1',
+            content: 'content 1',
+            votes: 0,
+          }
         },
         {
-          title: 'fact 2',
-          content: 'content 2',
-          votes: 99,
+          signature: "Dwdw",
+          data: {
+            title: 'fact 2',
+            content: 'content 2',
+            votes: 99,
+          }
         },
       ];
     }
+  
+    list.forEach((item) => {
+      newList.push({
+        ...item,
+        sighash: sha256(item.signature),
+      });
+    });
     return (
       <Container>
         <TitleStyled>{this.renderTitle()}</TitleStyled>
         {
-          list.length > 0
-            ? this.renderList(list)
+          newList.length > 0
+            ? this.renderList(newList)
             : this.renderEmptyList()
         }
       </Container>
@@ -78,8 +93,8 @@ export class FactListAccepted extends Component {
   
   renderItem = (item, key) => {
     return (
-      <ItemContainerStyled key={key}>
-        {item.title} {FactListAccepted.renderAddVote(item, key)}
+      <ItemContainerStyled key={item.sighash}>
+        {item.data.title} {FactListAccepted.renderAddVote(item, key)}
       </ItemContainerStyled>
     );
   };
