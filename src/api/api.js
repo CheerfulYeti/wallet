@@ -28,25 +28,29 @@ const prepareResources = function(resources) {
       };
     });
   });
-  console.log('prepareResources.result: ', result);
 
   return result;
 };
 
 const dataMiddleware = ({ resourceName, resourceMethod }) => ({
   request(request) {
-    const config = resources[resourceName][resourceMethod];
-    if (request.requestParams && config && config.method === method.post) {
+    const resourceConfig = resources[resourceName][resourceMethod];
+    if (request.requestParams && resourceConfig && resourceConfig.method === method.post) {
       let headers = request.headers();
-      if (request.requestParams.headers) {
+      if (request.requestParams.postHeaders) {
         headers = {
           ...headers,
-          ...request.requestParams.headers,
+          ...request.requestParams.postHeaders,
         };
-        delete request.requestParams.headers;
+        delete request.requestParams.postHeaders;
       }
+  
+  
+      const requestParams = (resourceConfig.getRequest)
+        ? resourceConfig.getRequest(request.requestParams)
+        : request.requestParams;
       
-      const content = JSON.stringify(request.requestParams);
+      const content = JSON.stringify(requestParams);
       request.requestParams = {
         headers,
         body: content,
@@ -95,12 +99,9 @@ const stubClient = forge({
 
 export default function (resource, params) {
   const resourceConfig = get(resources, resource);
-  const resultParams = (resourceConfig.getRequest)
-    ? resourceConfig.getRequest(params)
-    : params;
 
   return get(
     (resourceConfig.useStub) ? stubClient : client,
     resource
-  )(resultParams);
+  )(params);
 }

@@ -24,11 +24,11 @@ const actions = {
   fail: createAction(actionTypes.async.fail),
 };
 
-export const reset = (resource) => (dispatch) => {
-  dispatch(actions.reset({
-    method: resource,
-  }));
-};
+// export const reset = (resource) => (dispatch) => {
+//   dispatch(actions.reset({
+//     method: resource,
+//   }));
+// };
 
 export const load = (resource, params) => (dispatch) => {
   dispatch(actions.request({
@@ -104,8 +104,7 @@ function makePOSTRequest(resource, params, dispatch) {
 
       headers['X-Signature'] = signature;
 
-      params.headers = headers;
-      
+      params.postHeaders = headers;
       makeRequest(resource, params, dispatch)
     });
   });

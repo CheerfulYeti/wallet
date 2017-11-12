@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { CardActions, CardHeader, CardText } from 'material-ui/Card';
+import { CardHeader } from 'material-ui/Card';
 import Form from './Form';
 import async from 'reduxConfig/actions/async';
-
-import store from 'reduxConfig/store';
-// import Actions from 'reduxConfig/actions/`AccountInfo`Actions';
 
 import { TransferContainer } from './styled';
 
 class AccountInfo extends Component {
   componentWillReceiveProps(props) {
-    console.log('props: ', props.transfer);
-
     // TODO update balance
     if (props.transfer.needShowData === true) {
       // this.props.updateBalance();
@@ -46,23 +41,21 @@ class AccountInfo extends Component {
 
   handleConfirm = (e) => {
     e.preventDefault(e);
-    const { form: { values = {}}, publicKey } = this.props;
+    const { form: { values = {}} } = this.props;
 
     this.props.send({
-      source: publicKey,
       dest: values.addressTo,
       amount: parseFloat(values.amount),
       commission: parseFloat(values.commission),
       data: values.message,
     });
   }
-};
+}
 
 const mapStateToProps = function (state) {
   return {
     transfer: async.getStoreState(state, async.methodList.event.add),
     form: state.form['transfer'],
-    publicKey: state.user.publicKey,
   };
 };
 
@@ -74,9 +67,9 @@ const mapDispatchToProps = (dispatch) => {
         type: 0,
       }));
     },
-    updateBalance: (params) => {
-      dispatch(async.load(async.methodList.account.getInfo));
-    },
+    // updateBalance: (params) => {
+    //   dispatch(async.load(async.methodList.account.getInfo));
+    // },
     setError: (error) => {
       dispatch(async.actions.fail({
         method: async.methodList.account.getInfo,
