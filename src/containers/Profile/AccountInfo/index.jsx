@@ -32,11 +32,11 @@ class AccountInfo extends Component {
       </AccountInfoContainer>
     )
   };
-};
+}
 
 const mapStateToProps = function (state) {
   return {
-    accountInfo: async.getStoreState(state, async.methodList.account.getInfo),
+    accountInfo: async.getStoreState(state, async.methodList.account.getInfo.alias),
     publicHash: state.user.publicHash,
   };
 };

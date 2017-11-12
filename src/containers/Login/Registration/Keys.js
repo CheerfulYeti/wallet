@@ -23,7 +23,7 @@ export default function generateKeyFile(password) {
   
       request.privateKey = privateKey;
       request.publicKey = publicKey;
-      store.dispatch(load(methodList.account.register, request));
+      store.dispatch(load(methodList.account.register.alias, request));
       store.dispatch(setIsFileGenerated(true));
       
     });

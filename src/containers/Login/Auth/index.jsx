@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import BaseContainer from 'components/BaseContainer';
 import { loadFromFile } from 'helpers/file';
-import { getImportedKeys, sha256, decrypt, getExportedKeys } from 'helpers/crypto';
+import { getImportedKeys, sha256, decrypt } from 'helpers/crypto';
 import { setKeys } from 'reduxConfig/actions/user';
 import async from 'reduxConfig/actions/async';
 import AsyncBlock from 'components/AsyncBlock';
@@ -93,7 +93,7 @@ class Auth extends Component {
 
 const mapStateToProps = function (state) {
   return {
-    accountInfo: async.getStoreState(state, async.methodList.account.getInfo),
+    accountInfo: async.getStoreState(state, async.methodList.account.getInfo.alias),
     formState: state.form['auth'],
   };
 };
@@ -104,11 +104,11 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(setKeys(keys));
     },
     loadAccountInfo: (params) => {
-      dispatch(async.load(async.methodList.account.getInfo, params));
+      dispatch(async.load(async.methodList.account.getInfo.alias, params));
     },
     setError: (error) => {
       dispatch(async.actions.fail({
-        method: async.methodList.account.getInfo,
+        method: async.methodList.account.getInfo.alias,
         data: error,
       }))
     },

@@ -8,15 +8,7 @@ import get from 'lodash/get';
 import resources, { method } from 'api/resources';
 import actionTypes from '../constants/actionTypes';
 
-export const methodList = {
-  account: {
-    register: 'account.register',
-    getInfo: 'account.getInfo',
-  },
-  event: {
-    add: 'event.add',
-  },
-};
+export const methodList = resources;
 
 const actions = {
   request: createAction(actionTypes.async.request),

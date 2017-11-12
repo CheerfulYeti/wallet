@@ -54,7 +54,7 @@ class AccountInfo extends Component {
 
 const mapStateToProps = function (state) {
   return {
-    transfer: async.getStoreState(state, async.methodList.event.add),
+    transfer: async.getStoreState(state, async.methodList.event.add.alias),
     form: state.form['transfer'],
   };
 };
@@ -62,7 +62,7 @@ const mapStateToProps = function (state) {
 const mapDispatchToProps = (dispatch) => {
   return {
     send: (params) => {
-      dispatch(async.load(async.methodList.event.add, {
+      dispatch(async.load(async.methodList.event.add.alias, {
         ...params,
         type: 0,
       }));
@@ -72,7 +72,7 @@ const mapDispatchToProps = (dispatch) => {
     // },
     setError: (error) => {
       dispatch(async.actions.fail({
-        method: async.methodList.account.getInfo,
+        method: async.methodList.account.getInfo.alias,
         data: error,
       }))
     },

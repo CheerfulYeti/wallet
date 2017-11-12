@@ -3,7 +3,7 @@ export const method = {
   get: 'get',
 };
 
-export default {
+const methodList = {
   account: {
     register: {
       method: method.post,
@@ -33,3 +33,19 @@ export default {
     }
   },
 };
+
+function generateAlias(list, pathList = []) {
+  Object.keys(list).forEach(key => {
+    const paths = [...pathList, key];
+    if (list[key].path) {
+      list[key].alias = paths.join('.');
+    } else {
+      generateAlias(list[key], paths);
+    }
+  });
+}
+
+generateAlias(methodList);
+
+export default methodList;
+
