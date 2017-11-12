@@ -43,11 +43,11 @@ const methodList = {
     },
     getUnacceptedList: {
       method: method.get,
-      path: 'event/mempool/type/{type}',
+      path: 'event/mempool/{type}',
     },
     getAcceptedList: {
       method: method.get,
-      path: 'event/history',
+      path: 'event/approved/{type}',
     },
   },
 };

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import async from 'reduxConfig/actions/async';
 import AsyncBlock from 'components/AsyncBlock';
+import appConstants from 'constants/app';
 import { facts } from 'constants/texts';
 
 import { Container, TitleStyled, ItemContainerStyled } from './styled';
@@ -18,7 +19,14 @@ export class FactListAccepted extends Component {
   };
   
   componentWillMount() {
+    this.load();
+  };
+  
+  load = () => {
     this.props.load();
+    setTimeout(() => {
+      // this.load();
+    }, 1000);
   };
   
   componentWillReceiveProps(props) {
@@ -27,7 +35,6 @@ export class FactListAccepted extends Component {
   
   render() {
     const { acceptedList } = this.props;
-    console.log("%cP-1510482626657", 'background: #222; color: #bada55', acceptedList);
     return (
       <AsyncBlock
         asyncState={acceptedList}
@@ -47,7 +54,6 @@ export class FactListAccepted extends Component {
               },
             ];
           }
-          console.log("%cP-1510482352711", 'background: #222; color: #bada55', list);
           return (
             <Container>
               {
@@ -78,9 +84,7 @@ export class FactListAccepted extends Component {
   };
   
   renderList = (list) => {
-    console.log('%cP-1510488473627', 'background: #222; color: #bada55', list);
     const r =  list.map((item, key) => this.renderItem(item, key));
-    console.log('%cP-1510488505021', 'background: #222; color: #bada55', r);
     return r;
   };
   
@@ -93,7 +97,6 @@ export class FactListAccepted extends Component {
   };
   
   static renderAddVote(item, key) {
-    console.log("%cP-1510482530912", 'background: #222; color: #bada55', item, key);
     return null;
   }
 }
@@ -113,7 +116,7 @@ const mapDispatchToProps = (dispatch) => {
   const apiObject = getApiRequest();
   return {
     load: () => {
-      dispatch(async.load(apiObject.alias));
+      dispatch(async.load(apiObject.alias, {type: appConstants.eventTypeList.FACT}));
     },
   };
 };

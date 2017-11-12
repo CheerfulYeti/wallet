@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import async from 'reduxConfig/actions/async';
+import store from 'reduxConfig/store';
 
 import { AccountInfoContainer, List, ListItem, Label, Value } from './styled';
 
 class AccountInfo extends Component {
-
+  componentWillMount() {
+    console.log('%cP-1510491905952', 'background: #222; color: #bada55', '!!');
+    this.load();
+  }
+  
   render() {
     console.log('AccountInfo props: ', this.props);
     const {
@@ -32,6 +37,13 @@ class AccountInfo extends Component {
       </AccountInfoContainer>
     )
   };
+  
+  load = () => {
+    this.props.loadAccountInfo();
+    setTimeout(() => {
+      // this.load();
+    }, 1000);
+  }
 }
 
 const mapStateToProps = function (state) {
@@ -41,4 +53,16 @@ const mapStateToProps = function (state) {
   };
 };
 
-export default connect(mapStateToProps)(AccountInfo);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadAccountInfo: () => {
+      const state = store.getState();
+      console.log('%cP-1510491692436', 'background: #222; color: #bada55', state);
+      dispatch(async.load(async.methodList.account.getInfo.alias, {
+        accountHash: state.user.publicHash,
+      }));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AccountInfo);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import async from 'reduxConfig/actions/async';
+import appConstants from 'constants/app';
 import { facts } from 'constants/texts';
 
 import { FactListAccepted } from 'containers/Fact/FactList/FactListAccepted';
@@ -26,7 +27,7 @@ const mapDispatchToProps = (dispatch) => {
   const apiObject = getApiRequest();
   return {
     load: () => {
-      dispatch(async.load(apiObject.alias));
+      dispatch(async.load(apiObject.alias, {type: appConstants.eventTypeList.FACT}));
     },
   };
 };

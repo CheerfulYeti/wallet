@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import FactListAccepted from 'containers/Fact/FactList/FactListAccepted';
-import FactListUnAccepted from 'containers/Fact/FactList/FactListUnAccepted';
-
+import FactList from 'containers/Fact/FactList';
 import FactAdd from 'containers/Fact/FactAdd';
 import AccountInfo from './AccountInfo';
 import Transfer from './Transfer';
@@ -30,7 +28,6 @@ class Profile extends Component {
 
   render() {
     const { history } = this.props;
-
     return (
       <Container>
         <TabsComponent history={history}/>
@@ -48,9 +45,8 @@ const TabsComponent = (props) => (
     <Tab label="Add fact" >
       <FactAdd history={props.history}/>
     </Tab>
-    <Tab label="FactList" >
-      <FactListUnAccepted history={props.history}/>
-      <FactListAccepted history={props.history}/>
+    <Tab label="FactList">
+      <FactList history={props.history}/>
     </Tab>
   </Tabs>
 );

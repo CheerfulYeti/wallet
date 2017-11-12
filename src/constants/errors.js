@@ -1,9 +1,16 @@
+const errorList = {
+  UNEXPECTED_ERROR: null,
+};
+Object.keys(errorList).forEach((key) => {
+  errorList[key] = key;
+});
+
 export const errorCodes = {
-  UNEXPECTED_ERROR: -1,
+  [errorList.UNEXPECTED_ERROR]: -1,
 };
 
 export const errorMessages = {
-  [errorCodes.UNEXPECTED_ERROR]: "Unexpected error",
+  [errorList.UNEXPECTED_ERROR]: "Unexpected error",
 };
 
 export default {

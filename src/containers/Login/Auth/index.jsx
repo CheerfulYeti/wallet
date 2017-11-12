@@ -18,15 +18,6 @@ class Auth extends Component {
       keyFileName: '',
     };
   }
-  
-  componentWillReceiveProps(props) {
-    const { accountInfo } = props;
-    if (accountInfo.hasRequested && accountInfo.needShowData) {
-      console.log("point-1510242125263", 'load success, user logged in');
-      // redirect to profile
-      this.props.history.push('/profile');
-    }
-  };
 
   render() {
     const { accountInfo } = this.props;
@@ -77,9 +68,7 @@ class Auth extends Component {
       getImportedKeys(data.privateKey).then(() => {
         data.publicHash = sha256(base64Encode(data.publicKey));
         this.props.setKeys(data);
-        this.props.loadAccountInfo({
-          accountHash: data.publicHash,
-        });
+        this.props.history.push('/profile');
       });
     }
     catch (e) {
@@ -102,9 +91,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setKeys: (keys) => {
       dispatch(setKeys(keys));
-    },
-    loadAccountInfo: (params) => {
-      dispatch(async.load(async.methodList.account.getInfo.alias, params));
     },
     setError: (error) => {
       dispatch(async.actions.fail({

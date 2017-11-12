@@ -7,5 +7,7 @@ export default {
   test: '/test',
   profile: '/profile',
   factAdd: '/fact/add',
+  factList: '/fact/list',
   factListAccepted: '/fact/list/accepted',
+  factListUnAccepted: '/fact/list/unaccepted',
 }
