@@ -2,7 +2,6 @@ import forge from 'mappersmith';
 import config from './config';
 import get from 'lodash/get';
 import resources, { method } from './resources';
-import { base64Encode } from 'helpers/crypto';
 
 const apiAlias = 'localhost';
 
@@ -39,17 +38,14 @@ const dataMiddleware = ({ resourceName, resourceMethod }) => ({
     const config = resources[resourceName][resourceMethod];
     if (request.requestParams && config && config.method === method.post) {
       let headers = request.headers();
-      headers['Content-Type'] = 'application/json';
-      if (request.requestParams.publicKey) {
-        let publicKey = request.requestParams.publicKey;
-        publicKey = base64Encode(publicKey);
-        headers['X-Public-Key'] = publicKey;
-        delete request.requestParams.publicKey;
+      if (request.requestParams.headers) {
+        headers = {
+          ...headers,
+          ...request.requestParams.headers,
+        };
+        delete request.requestParams.headers;
       }
-      if (request.requestParams.signature) {
-        headers['X-Signature'] = request.requestParams.signature;
-        delete request.requestParams.signature;
-      }
+      
       const content = JSON.stringify(request.requestParams);
       request.requestParams = {
         headers,
@@ -79,11 +75,9 @@ const dataMiddleware = ({ resourceName, resourceMethod }) => ({
 
 const stubMiddleware = () => ({
   request(request) {
-    const result = request.enhance({
+    return request.enhance({
       path: createStubURI(request.path()),
     });
-
-    return result;
   }
 });
 

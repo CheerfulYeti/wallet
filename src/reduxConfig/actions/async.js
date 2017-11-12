@@ -1,7 +1,11 @@
-import {createAction} from 'redux-actions';
+import { createAction } from 'redux-actions';
 import api from 'api/api.js';
 import { AsyncState } from 'objects/AsyncState';
 import { errorCodes, errorMessages } from 'constants/errors';
+import { getImportedKeys, sign, base64Encode } from 'helpers/crypto';
+import store from 'reduxConfig/store';
+import get from 'lodash/get';
+import resources, { method } from 'api/resources';
 import actionTypes from '../constants/actionTypes';
 
 export const methodList = {
@@ -20,21 +24,31 @@ const actions = {
   fail: createAction(actionTypes.async.fail),
 };
 
-export const reset = (method) => (dispatch) => {
+export const reset = (resource) => (dispatch) => {
   dispatch(actions.reset({
-    method,
+    resource,
   }));
 };
 
-export const load = (method, params) => (dispatch) => {
+export const load = (resource, params) => (dispatch) => {
   dispatch(actions.request({
-    method,
+    resource,
     data: params,
   }));
-  api(method, params)
+  
+  const resourceConfig = get(resources, resource);
+  if (resourceConfig && resourceConfig.method === method.post) {
+    makePOSTRequest(resource, params, dispatch);
+  } else {
+    makeRequest(resource, params, dispatch);
+  }
+};
+
+function makeRequest(resource, params, dispatch) {
+  api(resource, params)
     .then(response => {
       dispatch(actions.success({
-        method,
+        resource,
         data: response,
       }));
     })
@@ -51,21 +65,57 @@ export const load = (method, params) => (dispatch) => {
         message = data.error.message;
       }
       dispatch(actions.fail({
-        method,
+        resource,
         data: {
           message,
           code,
         },
       }));
-      
     });
-};
+}
 
-export const getStoreState = (state, method, defaultLoader) => {
-  if (!state.async[method]) {
+
+function getKeysFromState() {
+  const { privateKey, publicKey } = store.getState().user;
+  return {
+    privateKey,
+    publicKey,
+  };
+}
+
+function makePOSTRequest(resource, params, dispatch) {
+  let { privateKey, publicKey } = params;
+  delete params.privateKey;
+  delete params.publicKey;
+  
+  let headers = {};
+  headers['Content-Type'] = 'application/json';
+  
+  if (!publicKey) {
+    publicKey = getKeysFromState().publicKey;
+  }
+  headers['X-Public-Key'] = base64Encode(publicKey);
+
+  if (!privateKey) {
+    privateKey = getKeysFromState().privateKey;
+  }
+  getImportedKeys(privateKey).then((keys) => {
+    sign(keys, params).then(signature => {
+
+      headers['X-Signature'] = signature;
+
+      params.headers = headers;
+      
+      makeRequest(resource, params, dispatch)
+    });
+  });
+}
+
+export const getStoreState = (state, resource, defaultLoader) => {
+  if (!state.async[resource]) {
     return new AsyncState(defaultLoader);
   }
-  return state.async[method];
+  return state.async[resource];
 };
 
 export default {
