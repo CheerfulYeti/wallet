@@ -59,6 +59,8 @@ const methodList = {
           voteEventSighash: params.voteEventSighash,
           commission: params.commission,
           amount: 0,
+          dest: '',
+          data: '',
           type: params.type,
           datetime: Date.now(),
         };
